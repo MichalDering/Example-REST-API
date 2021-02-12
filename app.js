@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 Strategy = require('passport-http-bearer').Strategy;
 const db = require('./db');
+const routes = require('./routes');
 const services = require('./services');
 
 const app = express();
@@ -22,30 +23,8 @@ passport.use(new Strategy((token, done) => {
     });
 }));
 
-app.get(basePath + 'users', passport.authenticate('bearer', { session: false }), (req, res) => {
-    services.users.getUsers(res);
-})
-
-app.get(basePath + 'users/:id', passport.authenticate('bearer', { session: false }), (req, res) => {
-    const { id } = req.params;
-    services.users.getUser(id, res);
-})
-
-app.post(basePath + 'users', passport.authenticate('bearer', { session: false }), (req, res) => {
-    services.users.addUser(req.body, res);
-})
-
-app.put(basePath + 'users/:id', passport.authenticate('bearer', { session: false }), (req, res) => {
-    const { id } = req.params;
-    services.users.updateUser(id, req.body);
-    res.json(req.body);
-})
-
-app.delete(basePath + 'users/:id', passport.authenticate('bearer', { session: false }), (req, res) => {
-    const { id } = req.params;
-    services.users.deleteUser(id);
-    res.json({ deleted: id });
-})
+routes.users.createUsersRoutes(app, passport, basePath, services);
+routes.tasks.createTasksRoutes(app, passport, basePath, services);
 
 // authenticate agaist the token from app file
 app.get(basePath + 'authenticate', passport.authenticate('bearer', { session: false }), (req, res) => {
