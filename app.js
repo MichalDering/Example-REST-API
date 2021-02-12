@@ -1,4 +1,4 @@
-//require('dotenv').config()
+const config = require("./config");
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
@@ -8,7 +8,7 @@ const services = require('./services');
 
 const app = express();
 app.use(express.json());
-const port = process.env.PORT || 5000;
+const port = config.port || 5000;
 
 const basePath = '/v1/';
 
@@ -49,8 +49,8 @@ app.delete(basePath + 'users/:id', passport.authenticate('bearer', { session: fa
 
 // authenticate agaist the token from app file
 app.get(basePath + 'authenticate', passport.authenticate('bearer', { session: false }), (req, res) => {
-        res.json(req.user);
-    })
+    res.json(req.user);
+})
 
 // use the token after login
 app.post(basePath + 'posts', verifyToken, (req, res) => {

@@ -1,28 +1,18 @@
+const config = require("../config");
 const sql = require("mssql");
-
-// config for your database
-const config = {
-  user: 'developer',
-  password: 'developer',
-  server: 'localhost',
-  database: 'WorkLogs',
-  options: {
-      enableArithAbort: true
-  }
-};
 
 async function getUsers(res) {
   try {
-      let pool = await sql.connect(config);
-      let result1 = await pool.request()
-          .query('SELECT * FROM Users');
+    let pool = await sql.connect(config.sqlConfig);
+    let result1 = await pool.request()
+      .query('SELECT * FROM Users');
 
-      console.dir(result1.recordset);
-      res.send(result1.recordset);
+    console.dir(result1.recordset);
+    res.send(result1.recordset);
   } catch (err) {
-      // ... error checks
-      console.log(err);
-      res.send(err);
+    // ... error checks
+    console.log(err);
+    res.send(err);
   }
 }
 
@@ -30,16 +20,16 @@ module.exports.getUsers = getUsers;
 
 async function getUser(id, res) {
   try {
-      let pool = await sql.connect(config);
-      let result1 = await pool.request()
-          .input('id', sql.Int, id)
-          .query('SELECT * FROM Users WHERE id = @id');
+    let pool = await sql.connect(config.sqlConfig);
+    let result1 = await pool.request()
+      .input('id', sql.Int, id)
+      .query('SELECT * FROM Users WHERE id = @id');
 
-          res.send(result1.recordset);
+    res.send(result1.recordset);
   } catch (err) {
-      // ... error checks
-      console.log(err);
-      res.send(err);
+    // ... error checks
+    console.log(err);
+    res.send(err);
   }
 }
 
@@ -47,20 +37,20 @@ module.exports.getUser = getUser;
 
 async function addUser(body, res) {
   try {
-      let pool = await sql.connect(config);
-      let result1 = await pool.request()
-          .input('userName', sql.VarChar, body.userName)
-          .input('firstName', sql.VarChar, body.firstName)
-          .input('lastName', sql.VarChar, body.lastName)
-          .input('active', sql.Bit, body.active)
-          .query('INSERT INTO Users (userName, firstName, lastName, active) VALUES (@userName, @firstName, @lastName, @active)');
+    let pool = await sql.connect(config.sqlConfig);
+    let result1 = await pool.request()
+      .input('userName', sql.VarChar, body.userName)
+      .input('firstName', sql.VarChar, body.firstName)
+      .input('lastName', sql.VarChar, body.lastName)
+      .input('active', sql.Bit, body.active)
+      .query('INSERT INTO Users (userName, firstName, lastName, active) VALUES (@userName, @firstName, @lastName, @active)');
 
-      res.status(201);
-      res.send(result1.recordset);
+    res.status(201);
+    res.send(result1.recordset);
   } catch (err) {
-      // ... error checks
-      console.log(err);
-      res.send(err);
+    // ... error checks
+    console.log(err);
+    res.send(err);
   }
 }
 
@@ -68,18 +58,18 @@ module.exports.addUser = addUser;
 
 async function updateUser(id, body) {
   try {
-      let pool = await sql.connect(config);
-      let result1 = await pool.request()
-          .input('userName', sql.VarChar, body.userName)
-          .input('firstName', sql.VarChar, body.firstName)
-          .input('lastName', sql.VarChar, body.lastName)
-          .input('active', sql.Bit, body.active)
-          .input('id', sql.Int, id)
-          .query('UPDATE Users SET userName = @userName, firstName = @firstName, lastName = @lastName, active = @active WHERE id = @id');
+    let pool = await sql.connect(config.sqlConfig);
+    let result1 = await pool.request()
+      .input('userName', sql.VarChar, body.userName)
+      .input('firstName', sql.VarChar, body.firstName)
+      .input('lastName', sql.VarChar, body.lastName)
+      .input('active', sql.Bit, body.active)
+      .input('id', sql.Int, id)
+      .query('UPDATE Users SET userName = @userName, firstName = @firstName, lastName = @lastName, active = @active WHERE id = @id');
   } catch (err) {
-      // ... error checks
-      console.log(err);
-      res.send(err);
+    // ... error checks
+    console.log(err);
+    res.send(err);
   }
 }
 
@@ -87,14 +77,14 @@ module.exports.updateUser = updateUser;
 
 async function deleteUser(id) {
   try {
-      let pool = await sql.connect(config);
-      let result1 = await pool.request()
-          .input('id', sql.Int, id)
-          .query('DELETE FROM Users WHERE id = @id');
+    let pool = await sql.connect(config.sqlConfig);
+    let result1 = await pool.request()
+      .input('id', sql.Int, id)
+      .query('DELETE FROM Users WHERE id = @id');
   } catch (err) {
-      // ... error checks
-      console.log(err);
-      res.send(err);
+    // ... error checks
+    console.log(err);
+    res.send(err);
   }
 }
 
