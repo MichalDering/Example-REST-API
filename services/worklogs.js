@@ -4,11 +4,11 @@ const sql = require("mssql");
 async function getWorkLogs(res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
-    let result1 = await pool.request()
+    let result = await pool.request()
       .query('SELECT * FROM WorkLogs');
 
-    console.dir(result1.recordset);
-    res.send(result1.recordset);
+    console.dir(result.recordset);
+    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -21,11 +21,11 @@ module.exports.getWorkLogs = getWorkLogs;
 async function getWorkLog(id, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
-    let result1 = await pool.request()
+    let result = await pool.request()
       .input('id', sql.Int, id)
       .query('SELECT * FROM WorkLogs WHERE id = @id');
 
-    res.send(result1.recordset);
+    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -38,14 +38,14 @@ module.exports.getWorkLog = getWorkLog;
 async function addWorkLog(body, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
-    let result1 = await pool.request()
+    let result = await pool.request()
       .input('userId', sql.Int, body.userId)
       .input('taskId', sql.Int, body.taskId)
       .input('reportedHours', sql.Int, body.reportedHours)
       .query('INSERT INTO WorkLogs (userId, taskId, reportedHours) VALUES (@userId, @taskId, @reportedHours)');
 
     res.status(201);
-    res.send(result1.recordset);
+    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -58,7 +58,7 @@ module.exports.addWorkLog = addWorkLog;
 async function updateWorkLog(id, body) {
   try {
     let pool = await sql.connect(config.sqlConfig);
-    let result1 = await pool.request()
+    let result = await pool.request()
       .input('userId', sql.Int, body.userId)
       .input('taskId', sql.Int, body.taskId)
       .input('reportedHours', sql.Int, body.reportedHours)
@@ -76,7 +76,7 @@ module.exports.updateWorkLog = updateWorkLog;
 async function deleteWorkLog(id) {
   try {
     let pool = await sql.connect(config.sqlConfig);
-    let result1 = await pool.request()
+    let result = await pool.request()
       .input('id', sql.Int, id)
       .query('DELETE FROM WorkLogs WHERE id = @id');
   } catch (err) {
