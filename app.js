@@ -1,6 +1,5 @@
 //require('dotenv').config()
 const express = require('express');
-const sql = require("mssql");
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 Strategy = require('passport-http-bearer').Strategy;
@@ -23,118 +22,28 @@ passport.use(new Strategy((token, done) => {
     });
 }));
 
-// config for your database
-var config = {
-    user: 'developer',
-    password: 'developer',
-    server: 'localhost',
-    database: 'WorkLogs',
-    options: {
-        enableArithAbort: true
-    }
-};
-
-async function getUsers(res) {
-    try {
-        let pool = await sql.connect(config);
-        let result1 = await pool.request()
-            .query('SELECT * FROM Users');
-
-        console.dir(result1.recordset);
-        res.send(result1.recordset);
-    } catch (err) {
-        // ... error checks
-        console.log(err);
-        res.send(err);
-    }
-}
-
-async function getUser(id, res) {
-    try {
-        let pool = await sql.connect(config);
-        let result1 = await pool.request()
-            .input('id', sql.Int, id)
-            .query('SELECT * FROM Users WHERE id = @id');
-
-            res.send(result1.recordset);
-    } catch (err) {
-        // ... error checks
-        console.log(err);
-        res.send(err);
-    }
-}
-
-async function addUser(body, res) {
-    try {
-        let pool = await sql.connect(config);
-        let result1 = await pool.request()
-            .input('userName', sql.VarChar, body.userName)
-            .input('firstName', sql.VarChar, body.firstName)
-            .input('lastName', sql.VarChar, body.lastName)
-            .input('active', sql.Bit, body.active)
-            .query('INSERT INTO Users (userName, firstName, lastName, active) VALUES (@userName, @firstName, @lastName, @active)');
-
-        res.status(201);
-        res.send(result1.recordset);
-    } catch (err) {
-        // ... error checks
-        console.log(err);
-        res.send(err);
-    }
-}
-
-async function updateUser(id, body) {
-    try {
-        let pool = await sql.connect(config);
-        let result1 = await pool.request()
-            .input('userName', sql.VarChar, body.userName)
-            .input('firstName', sql.VarChar, body.firstName)
-            .input('lastName', sql.VarChar, body.lastName)
-            .input('active', sql.Bit, body.active)
-            .input('id', sql.Int, id)
-            .query('UPDATE Users SET userName = @userName, firstName = @firstName, lastName = @lastName, active = @active WHERE id = @id');
-    } catch (err) {
-        // ... error checks
-        console.log(err);
-        res.send(err);
-    }
-}
-
-async function deleteUser(id) {
-    try {
-        let pool = await sql.connect(config);
-        let result1 = await pool.request()
-            .input('id', sql.Int, id)
-            .query('DELETE FROM Users WHERE id = @id');
-    } catch (err) {
-        // ... error checks
-        console.log(err);
-        res.send(err);
-    }
-}
-
 app.get(basePath + 'users', passport.authenticate('bearer', { session: false }), (req, res) => {
-    getUsers(res);
+    services.users.getUsers(res);
 })
 
 app.get(basePath + 'users/:id', passport.authenticate('bearer', { session: false }), (req, res) => {
     const { id } = req.params;
-    getUser(id, res);
+    services.users.getUser(id, res);
 })
 
 app.post(basePath + 'users', passport.authenticate('bearer', { session: false }), (req, res) => {
-    addUser(req.body, res);
+    services.users.addUser(req.body, res);
 })
 
 app.put(basePath + 'users/:id', passport.authenticate('bearer', { session: false }), (req, res) => {
     const { id } = req.params;
-    updateUser(id, req.body);
+    services.users.updateUser(id, req.body);
     res.json(req.body);
 })
 
 app.delete(basePath + 'users/:id', passport.authenticate('bearer', { session: false }), (req, res) => {
     const { id } = req.params;
-    deleteUser(id);
+    services.users.deleteUser(id);
     res.json({ deleted: id });
 })
 
