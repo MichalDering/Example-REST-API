@@ -25,6 +25,7 @@ passport.use(new Strategy((token, done) => {
 
 routes.users.createUsersRoutes(app, passport, basePath, services);
 routes.tasks.createTasksRoutes(app, passport, basePath, services);
+routes.worklogs.createWorkLogsRoutes(app, passport, basePath, services);
 
 // authenticate agaist the token from app file
 app.get(basePath + 'authenticate', passport.authenticate('bearer', { session: false }), (req, res) => {
