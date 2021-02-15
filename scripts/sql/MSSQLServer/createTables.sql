@@ -1,8 +1,8 @@
 CREATE TABLE Users (
     id int IDENTITY(1,1) PRIMARY KEY,
     userName nvarchar(50) NOT NULL UNIQUE,
-    passwordHash BINARY(64) NOT NULL,
-    salt UNIQUEIDENTIFIER NOT NULL,
+    passwordHash binary(64) NOT NULL,
+    salt uniqueidentifier NOT NULL,
     firstName nvarchar(80) NOT NULL,
     lastName nvarchar(80) NOT NULL,
     active bit NOT NULL,
