@@ -3,15 +3,15 @@ CREATE PROCEDURE dbo.uspAddUser
     @pPassword NVARCHAR(50),
     @pFirstName NVARCHAR(80), 
     @pLastName NVARCHAR(80),
-    @pActive bit = 1,
-    @pComment nvarchar(80) = NULL,
-    @statusCode int OUTPUT,
+    @pActive BIT = 1,
+    @pComment NVARCHAR(80) = NULL,
+    @statusCode INT OUTPUT,
     @responseMessage NVARCHAR(250) OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON
 
-    DECLARE @salt UNIQUEIDENTIFIER=NEWID()
+    DECLARE @salt UNIQUEIDENTIFIER = NEWID()
     BEGIN TRY
 
         INSERT INTO dbo.[Users] (userName, passwordHash, salt, firstName, lastName, active, comment)
@@ -30,7 +30,7 @@ END
 
 --example call
 
-DECLARE @statusCode int
+DECLARE @statusCode INT
 DECLARE @responseMessage NVARCHAR(250)
 
 EXEC dbo.uspAddUser
@@ -41,14 +41,14 @@ EXEC dbo.uspAddUser
     @statusCode = @statusCode OUTPUT,
     @responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode as N'@statusCode', @responseMessage as N'@responseMessage';
+SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage';
 
 SELECT id, userName, passwordHash, salt, firstName, lastName, active, comment
 FROM [dbo].[Users]
 
 --example call
 
-DECLARE @statusCode int
+DECLARE @statusCode INT
 DECLARE @responseMessage NVARCHAR(250)
 
 EXEC dbo.uspAddUser
@@ -61,7 +61,7 @@ EXEC dbo.uspAddUser
     @statusCode = @statusCode OUTPUT,
     @responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode as N'@statusCode', @responseMessage as N'@responseMessage';
+SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage';
 
 SELECT id, userName, passwordHash, salt, firstName, lastName, active, comment
 FROM [dbo].[Users]
@@ -71,7 +71,7 @@ FROM [dbo].[Users]
 CREATE PROCEDURE dbo.uspLogin
     @pLoginName NVARCHAR(50),
     @pPassword NVARCHAR(50),
-    @statusCode int OUTPUT,
+    @statusCode INT OUTPUT,
     @responseMessage NVARCHAR(250) = '' OUTPUT
 AS
 BEGIN
@@ -115,8 +115,8 @@ END
 
 --example calls
 
-DECLARE @statusCode int
-DECLARE @responseMessage nvarchar(250)
+DECLARE @statusCode INT
+DECLARE @responseMessage NVARCHAR(250)
 
 --Correct login and password
 EXEC	dbo.uspLogin
@@ -125,7 +125,7 @@ EXEC	dbo.uspLogin
 		@statusCode = @statusCode OUTPUT,
 		@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode as N'@statusCode', @responseMessage as N'@responseMessage';
+SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage';
 
 --Incorrect login
 EXEC	dbo.uspLogin
@@ -134,7 +134,7 @@ EXEC	dbo.uspLogin
 		@statusCode = @statusCode OUTPUT,
 		@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode as N'@statusCode', @responseMessage as N'@responseMessage';
+SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage';
 
 --Incorrect password
 EXEC	dbo.uspLogin
@@ -143,7 +143,7 @@ EXEC	dbo.uspLogin
 		@statusCode = @statusCode OUTPUT,
 		@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode as N'@statusCode', @responseMessage as N'@responseMessage';
+SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage';
 
 --User inactive
 EXEC	dbo.uspLogin
@@ -152,4 +152,4 @@ EXEC	dbo.uspLogin
 		@statusCode = @statusCode OUTPUT,
 		@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode as N'@statusCode', @responseMessage as N'@responseMessage';
+SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage';
