@@ -23,6 +23,8 @@ passport.use(new Strategy((token, done) => {
     });
 }));
 
+
+routes.token.createTokenRoutes(app, passport, basePath, services);
 routes.users.createUsersRoutes(app, passport, basePath, services);
 routes.tasks.createTasksRoutes(app, passport, basePath, services);
 routes.worklogs.createWorkLogsRoutes(app, passport, basePath, services);
@@ -43,22 +45,6 @@ app.post(basePath + 'posts', verifyToken, (req, res) => {
                 authData
             })
         }
-    })
-})
-
-// get the token
-app.post(basePath + 'login', (req, res) => {
-    // Mock user
-    const user = {
-        id: 1,
-        username: 'brad',
-        email: 'brad@gmail.com'
-    }
-
-    jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
-        res.json({
-            token
-        })
     })
 })
 

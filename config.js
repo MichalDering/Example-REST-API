@@ -9,6 +9,7 @@ const { PORT,
     SQL_USER,
     SQL_PASSWORD,
     SQL_ENCRYPT,
+    SECRET_KEY,
 } = process.env;
 
 const sqlEncrypt = process.env.SQL_ENCRYPT === "true";
@@ -27,5 +28,6 @@ module.exports = {
             encrypt: sqlEncrypt,
             enableArithAbort: true
         }
-    }
+    },
+    secretKey: SECRET_KEY,
 };
