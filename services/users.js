@@ -7,7 +7,6 @@ async function getUsers(res) {
     let result = await pool.request()
       .query('SELECT * FROM Users');
 
-    console.dir(result.recordset);
     res.send(result.recordset);
   } catch (err) {
     // ... error checks

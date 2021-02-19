@@ -10,6 +10,8 @@ const { PORT,
     SQL_PASSWORD,
     SQL_ENCRYPT,
     SECRET_KEY,
+    TOKEN_EXPIRES_IN,
+    TOKEN_ISSUER,
 } = process.env;
 
 const sqlEncrypt = process.env.SQL_ENCRYPT === "true";
@@ -30,4 +32,6 @@ module.exports = {
         }
     },
     secretKey: SECRET_KEY,
+    tokenExpiresIn: TOKEN_EXPIRES_IN,
+    tokenIssuer: TOKEN_ISSUER,
 };
