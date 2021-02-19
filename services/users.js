@@ -39,9 +39,9 @@ async function addUser(body, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
-      .input('userName', sql.VarChar, body.userName)
-      .input('firstName', sql.VarChar, body.firstName)
-      .input('lastName', sql.VarChar, body.lastName)
+      .input('userName', sql.NVarChar, body.userName)
+      .input('firstName', sql.NVarChar, body.firstName)
+      .input('lastName', sql.NVarChar, body.lastName)
       .input('active', sql.Bit, body.active)
       .query('INSERT INTO Users (userName, firstName, lastName, active) VALUES (@userName, @firstName, @lastName, @active)');
 
@@ -60,9 +60,9 @@ async function updateUser(id, body) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
-      .input('userName', sql.VarChar, body.userName)
-      .input('firstName', sql.VarChar, body.firstName)
-      .input('lastName', sql.VarChar, body.lastName)
+      .input('userName', sql.NVarChar, body.userName)
+      .input('firstName', sql.NVarChar, body.firstName)
+      .input('lastName', sql.NVarChar, body.lastName)
       .input('active', sql.Bit, body.active)
       .input('id', sql.Int, id)
       .query('UPDATE Users SET userName = @userName, firstName = @firstName, lastName = @lastName, active = @active WHERE id = @id');

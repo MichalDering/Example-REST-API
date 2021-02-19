@@ -40,8 +40,8 @@ async function addTask(body, res) {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
       .input('userId', sql.Int, body.userId)
-      .input('summary', sql.VarChar, body.summary)
-      .input('status', sql.VarChar, body.status)
+      .input('summary', sql.NVarChar, body.summary)
+      .input('status', sql.NVarChar, body.status)
       .query('INSERT INTO Tasks (userId, summary, status) VALUES (@userId, @summary, @status)');
 
     res.status(201);
@@ -60,8 +60,8 @@ async function updateTask(id, body) {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
       .input('userId', sql.Int, body.userId)
-      .input('summary', sql.VarChar, body.summary)
-      .input('status', sql.VarChar, body.status)
+      .input('summary', sql.NVarChar, body.summary)
+      .input('status', sql.NVarChar, body.status)
       .input('id', sql.Int, id)
       .query('UPDATE Tasks SET userId = @userId, summary = @summary, status = @status WHERE id = @id');
   } catch (err) {

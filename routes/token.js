@@ -5,7 +5,6 @@ function createTokenRoutes(app, passport, basePath, services) {
 
   // login to get the token
   app.post(basePath + 'login', async (req, res) => {
-    try {
       const result = await services.token.checkUser(req.body, res);
 
       const user = {
@@ -18,12 +17,6 @@ function createTokenRoutes(app, passport, basePath, services) {
           result,
         })
       })
-
-    } catch (err) {
-      // ... error checks
-      console.log(err);
-      return err;
-    }
   })
 }
 
