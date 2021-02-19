@@ -40,10 +40,28 @@ async function addUser(body, res) {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
       .input('userName', sql.NVarChar, body.userName)
+      .input('password', sql.NVarChar, body.password)
       .input('firstName', sql.NVarChar, body.firstName)
       .input('lastName', sql.NVarChar, body.lastName)
       .input('active', sql.Bit, body.active)
-      .query('INSERT INTO Users (userName, firstName, lastName, active) VALUES (@userName, @firstName, @lastName, @active)');
+      .input('comment', sql.NVarChar, body.comment)
+      .output('@statusCode', sql.Int)
+      .output('@responseMessage', sql.NVarChar(250))
+      .query(`DECLARE @statusCode INT
+              DECLARE @responseMessage NVARCHAR(250)
+
+              EXEC uspAddUser
+                  @pLogin = @userName,
+                  @pPassword = @password,
+                  @pFirstName = @firstName,
+                  @pLastName = @lastName,
+                  @pActive = @active,
+                  @pComment = @comment,
+                  @statusCode = @statusCode OUTPUT,
+                  @responseMessage = @responseMessage OUTPUT
+
+              SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage';
+      `);
 
     res.status(201);
     res.send(result.recordset);
