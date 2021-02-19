@@ -12,7 +12,7 @@ async function checkUser(body, res) {
       .query(`DECLARE @statusCode INT
               DECLARE @responseMessage NVARCHAR(250)
               EXEC uspLogin
-                  @pLoginName = @userName,
+                  @pUserName = @userName,
                   @pPassword = @password,
                   @statusCode = @statusCode OUTPUT,
                   @responseMessage = @responseMessage OUTPUT

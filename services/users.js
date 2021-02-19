@@ -51,7 +51,7 @@ async function addUser(body, res) {
               DECLARE @responseMessage NVARCHAR(250)
 
               EXEC uspAddUser
-                  @pLogin = @userName,
+                  @pUserName = @userName,
                   @pPassword = @password,
                   @pFirstName = @firstName,
                   @pLastName = @lastName,
