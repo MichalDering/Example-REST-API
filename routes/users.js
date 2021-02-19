@@ -15,8 +15,7 @@ function createUsersRoutes(app, passport, basePath, services) {
 
   app.put(basePath + 'users/:id', passport.authenticate('bearer', { session: false }), (req, res) => {
     const { id } = req.params;
-    services.users.updateUser(id, req.body);
-    res.json(req.body);
+    services.users.updateUser(id, req.body, res);
   })
 
   app.delete(basePath + 'users/:id', passport.authenticate('bearer', { session: false }), (req, res) => {

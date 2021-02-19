@@ -60,8 +60,7 @@ async function addUser(body, res) {
                   @statusCode = @statusCode OUTPUT,
                   @responseMessage = @responseMessage OUTPUT
 
-              SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage';
-      `);
+              SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage'`);
 
     res.status(201);
     res.send(result.recordset);
@@ -74,16 +73,34 @@ async function addUser(body, res) {
 
 module.exports.addUser = addUser;
 
-async function updateUser(id, body) {
+async function updateUser(id, body, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
-      .input('userName', sql.NVarChar, body.userName)
+      .input('id', sql.Int, id)
+      .input('password', sql.NVarChar, body.password)
       .input('firstName', sql.NVarChar, body.firstName)
       .input('lastName', sql.NVarChar, body.lastName)
       .input('active', sql.Bit, body.active)
-      .input('id', sql.Int, id)
-      .query('UPDATE Users SET userName = @userName, firstName = @firstName, lastName = @lastName, active = @active WHERE id = @id');
+      .input('comment', sql.NVarChar, body.comment)
+      .output('@statusCode', sql.Int)
+      .output('@responseMessage', sql.NVarChar(250))
+      .query(`DECLARE @statusCode INT
+              DECLARE @responseMessage NVARCHAR(250)
+              
+              EXEC dbo.uspUpdateUser
+                  @pId = @id,
+                  @pPassword = @password,
+                  @pFirstName = @firstName,
+                  @pLastName = @lastName,
+                  @pActive = @active,
+                  @pComment = @comment,
+                  @statusCode = @statusCode OUTPUT,
+                  @responseMessage = @responseMessage OUTPUT
+
+              SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage'`);
+
+    res.json(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
