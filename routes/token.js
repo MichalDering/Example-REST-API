@@ -14,8 +14,8 @@ function createTokenRoutes(app, passport, basePath, services) {
 
       jwt.sign({ user }, config.secretKey, { expiresIn: config.tokenExpiresIn, issuer: config.tokenIssuer }, (err, token) => {
         res.json({
-          token,
           result,
+          token,
         })
       })
     } else {

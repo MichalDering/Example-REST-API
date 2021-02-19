@@ -1,12 +1,12 @@
 {
-  "name": "nodeauthapi",
+  "name": "worklogs-api",
   "version": "1.0.0",
-  "description": "JWT Example",
+  "description": "WorkLogs API",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "michal.dering@globallogic.com",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
@@ -14,7 +14,6 @@
     "jsonwebtoken": "^8.5.1",
     "mssql": "^6.3.1",
     "passport": "^0.4.1",
-    "passport-http-bearer": "^1.0.1",
-    "tedious": "^11.0.3"
+    "passport-http-bearer": "^1.0.1"
   }
 }
