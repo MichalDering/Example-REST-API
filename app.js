@@ -22,6 +22,10 @@ passport.use(new Strategy((token, done) => {
         if (!authData) {
             return done(null, false);
         }
+        if (authData.iss !== config.tokenIssuer) {
+            console.log('Wrong token issuer')
+            return done(Error('Wrong token issuer'));
+        }
         return done(null, authData);
     })
 }));

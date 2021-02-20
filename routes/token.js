@@ -8,11 +8,7 @@ function createTokenRoutes(app, passport, basePath, services) {
     const result = await services.token.checkUser(req.body, res);
 
     if (result[0].statusCode == 0) {
-      const user = {
-        username: req.body.userName,
-      }
-
-      jwt.sign({ user }, config.secretKey, { expiresIn: config.tokenExpiresIn, issuer: config.tokenIssuer }, (err, token) => {
+      jwt.sign({}, config.secretKey, { expiresIn: config.tokenExpiresIn, issuer: config.tokenIssuer }, (err, token) => {
         res.json({
           result,
           token,
