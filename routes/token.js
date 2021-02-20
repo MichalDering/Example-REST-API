@@ -31,13 +31,42 @@ function configurePassport(app, passport) {
   passport.use(new Strategy((token, done) => {
     jwt.verify(token, config.secretKey, (err, authData) => {
       if (err) {
+        if (err.name === 'TokenExpiredError') {
+          const error = Error('Token expired');
+          error.status = 401;
+          error.info = {
+            message: error.message,
+            expiredAt: err.expiredAt,
+          }
+          return done(error);
+        } else if (err.name === 'NotBeforeError') {
+          const error = Error('Token is not active');
+          error.status = 401;
+          error.info = {
+            message: error.message,
+            tokenValidFrom: err.date,
+          }
+          return done(error);
+        } else if (err.name === 'JsonWebTokenError') {
+          const error = Error('Token error');
+          error.status = 401;
+          error.info = {
+            message: error.message,
+          }
+          return done(error);
+        }
         return done(err);
       }
       if (!authData) {
         return done(null, false);
       }
       if (authData.iss !== config.tokenIssuer) {
-        return done(Error('Wrong token issuer'));
+        const error = Error('Wrong token issuer');
+        error.status = 401;
+        error.info = {
+          message: error.message,
+        }
+        return done(error);
       }
       return done(null, authData);
     })
@@ -47,9 +76,9 @@ function configurePassport(app, passport) {
   function handleError(err, req, res, next) {
     const output = {
       error: {
+        code: err.status,
         name: err.name,
-        message: err.message,
-        text: err.toString(),
+        info: err.info,
       }
     };
     const statusCode = err.status || 500;
