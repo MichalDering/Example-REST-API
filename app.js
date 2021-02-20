@@ -32,3 +32,21 @@ routes.tasks.createTasksRoutes(app, passport, basePath, services);
 routes.worklogs.createWorkLogsRoutes(app, passport, basePath, services);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
+
+// Middleware error handler to output json response instead of html
+function handleError(err, req, res, next) {
+    const output = {
+        error: {
+            name: err.name,
+            message: err.message,
+            text: err.toString(),
+        }
+    };
+    const statusCode = err.status || 500;
+    res.status(statusCode).json(output);
+}
+
+// Use middleware error handler
+app.use([
+    handleError
+]);

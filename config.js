@@ -34,4 +34,7 @@ module.exports = {
     secretKey: SECRET_KEY,
     tokenExpiresIn: TOKEN_EXPIRES_IN,
     tokenIssuer: TOKEN_ISSUER,
+    passportAuthenticateOptions: { 
+        session: false, 
+        failWithError: true },
 };
