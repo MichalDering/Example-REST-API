@@ -1,31 +1,40 @@
 CREATE TABLE Users (
-    id int IDENTITY(1,1) PRIMARY KEY,
-    userName nvarchar(50) NOT NULL UNIQUE,
-    passwordHash binary(64) NOT NULL,
-    salt uniqueidentifier NOT NULL,
-    firstName nvarchar(80) NOT NULL,
-    lastName nvarchar(80) NOT NULL,
-    active bit NOT NULL,
-    comment nvarchar(80)
-);
+	id INT IDENTITY(1, 1) PRIMARY KEY,
+	userName NVARCHAR(50) NOT NULL UNIQUE,
+	passwordHash BINARY (64) NOT NULL,
+	salt UNIQUEIDENTIFIER NOT NULL,
+	firstName NVARCHAR(80) NOT NULL,
+	lastName NVARCHAR(80) NOT NULL,
+	active BIT NOT NULL,
+	comment NVARCHAR(80)
+	);
 
-CREATE NONCLUSTERED INDEX IX_UsersUserName on Users(userName)
+CREATE NONCLUSTERED INDEX IX_UsersUserName ON Users (userName)
 
 CREATE TABLE Tasks (
-    id int IDENTITY(1,1) PRIMARY KEY,
-    userId int NOT NULL FOREIGN KEY REFERENCES Users(id),
-    summary nvarchar(255) NOT NULL,
-    status nvarchar(20) NOT NULL
-);
+	id INT IDENTITY(1, 1) PRIMARY KEY,
+	userId INT NOT NULL FOREIGN KEY REFERENCES Users(id),
+	summary NVARCHAR(255) NOT NULL,
+	STATUS NVARCHAR(20) NOT NULL
+	);
 
-CREATE NONCLUSTERED INDEX IX_TasksUserIdStatus on Tasks(userId, status)
+CREATE NONCLUSTERED INDEX IX_TasksUserIdStatus ON Tasks (
+	userId,
+	STATUS
+	)
 
 CREATE TABLE WorkLogs (
-    id int IDENTITY(1,1) PRIMARY KEY,
-    userId int NOT NULL FOREIGN KEY REFERENCES Users(id),
-    taskId int NOT NULL FOREIGN KEY REFERENCES Tasks(id),
-    reportedHours int NOT NULL,
-    CONSTRAINT UC_WorkLogs UNIQUE (userId, taskId)
-);
+	id INT IDENTITY(1, 1) PRIMARY KEY,
+	userId INT NOT NULL FOREIGN KEY REFERENCES Users(id),
+	taskId INT NOT NULL FOREIGN KEY REFERENCES Tasks(id),
+	reportedHours INT NOT NULL,
+	CONSTRAINT UC_WorkLogs UNIQUE (
+		userId,
+		taskId
+		)
+	);
 
-CREATE NONCLUSTERED INDEX IX_WorkLogsUserIdTaskId on WorkLogs(userId, taskId)
+CREATE NONCLUSTERED INDEX IX_WorkLogsUserIdTaskId ON WorkLogs (
+	userId,
+	taskId
+	)
