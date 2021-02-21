@@ -65,12 +65,20 @@ BEGIN
 			comment = @pComment
 		WHERE id = @pId
 
-		SET @statusCode = 0
-		SET @responseMessage = 'Success'
+		IF (@@ROWCOUNT = 0)
+		BEGIN
+			SET @statusCode = 1
+			SET @responseMessage = 'Did not update any row'
+		END
+		ELSE
+		BEGIN
+			SET @statusCode = 0
+			SET @responseMessage = 'Success'
+		END
 	END TRY
 
 	BEGIN CATCH
-		SET @statusCode = 1
+		SET @statusCode = 2
 		SET @responseMessage = ERROR_MESSAGE()
 	END CATCH
 END
