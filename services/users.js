@@ -7,7 +7,7 @@ async function getUsers(res) {
     let result = await pool.request()
       .query('SELECT * FROM Users');
 
-    if (result.recordset.length === 0) {
+    if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
     res.send(result.recordset);
@@ -28,7 +28,7 @@ async function getUser(id, res) {
       .input('id', sql.Int, id)
       .query('SELECT * FROM Users WHERE id = @id');
 
-    if (result.recordset.length === 0) {
+    if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
     res.send(result.recordset);
@@ -67,10 +67,20 @@ async function addUser(body, res) {
                   @statusCode = @statusCode OUTPUT,
                   @responseMessage = @responseMessage OUTPUT
 
-              SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage'`);
+              SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
 
-    res.status(201);
-    res.send(result.recordset);
+    // TODO in case of success return also a whole new object
+    const output = {
+      statusCode: result.recordset[0].statusCode,
+      responseMessage: result.recordset[0].responseMessage,
+    }
+    if (output.statusCode === 0) {
+      res.status(201);
+    } else {
+      res.status(409);
+      output.responseMessage = 'Could not add a user. Database error. Possible conflict.';
+    }
+    res.send(output);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -106,12 +116,23 @@ async function updateUser(id, body, res) {
                   @statusCode = @statusCode OUTPUT,
                   @responseMessage = @responseMessage OUTPUT
 
-              SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage'`);
+              SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
 
-    if (result.recordset.length === 0) {
-      res.status(404);
+    console.log(result);
+    // TODO consider: in case of success return also a whole new object
+    const output = {
+      statusCode: result.recordset[0].statusCode,
+      responseMessage: result.recordset[0].responseMessage,
     }
-    res.json(result.recordset);
+    if (output.statusCode === 0) {
+      res.status(200);
+    } else if (output.statusCode === 1) {
+      res.status(404);
+    } else {
+      res.status(400);
+      output.responseMessage = 'Could not update a user. Database error.';
+    }
+    res.send(output);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -122,16 +143,23 @@ async function updateUser(id, body, res) {
 
 module.exports.updateUser = updateUser;
 
-async function deleteUser(id) {
+async function deleteUser(id, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
       .input('id', sql.Int, id)
       .query('DELETE FROM Users WHERE id = @id');
 
-    if (result.recordset.length === 0) {
-      res.status(404);
+    const output = {
+      statusCode: 0,
+      responseMessage: 'User successfully deleted, id: ' + id,
     }
+    if (result.rowsAffected[0] === 0) {
+      res.status(404);
+      output.statusCode = 1;
+      output.responseMessage = 'User does not exist, id: ' + id;
+    }
+    res.send(output);
   } catch (err) {
     // ... error checks
     console.log(err);

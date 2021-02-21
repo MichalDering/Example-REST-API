@@ -22,8 +22,7 @@ function createUsersRoutes(app, passport, basePath, services) {
 
   app.delete(basePath + 'users/:id', passport.authenticate('bearer', config.passportAuthenticateOptions), (req, res) => {
     const { id } = req.params;
-    services.users.deleteUser(id);
-    res.json({ deleted: id });
+    services.users.deleteUser(id, res);
   })
 }
 
