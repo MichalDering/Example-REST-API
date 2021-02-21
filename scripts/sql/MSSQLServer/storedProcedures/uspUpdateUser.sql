@@ -86,8 +86,8 @@ EXEC dbo.uspUpdateUser @pId = 7,
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode AS N'@statusCode',
-	@responseMessage AS N'@responseMessage';
+SELECT @statusCode AS N'statusCode',
+	@responseMessage AS N'responseMessage';
 
 SELECT id,
 	userName,
@@ -112,8 +112,8 @@ EXEC dbo.uspUpdateUser @pId = 7,
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode AS N'@statusCode',
-	@responseMessage AS N'@responseMessage';
+SELECT @statusCode AS N'statusCode',
+	@responseMessage AS N'responseMessage';
 
 SELECT id,
 	userName,

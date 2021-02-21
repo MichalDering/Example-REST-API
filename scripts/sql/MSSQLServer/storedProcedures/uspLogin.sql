@@ -59,8 +59,8 @@ EXEC dbo.uspLogin @pUserName = N'Admin',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode AS N'@statusCode',
-	@responseMessage AS N'@responseMessage';
+SELECT @statusCode AS N'statusCode',
+	@responseMessage AS N'responseMessage';
 
 --Invalid login
 DECLARE @statusCode INT
@@ -71,8 +71,8 @@ EXEC dbo.uspLogin @pUserName = N'Admin1',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode AS N'@statusCode',
-	@responseMessage AS N'@responseMessage';
+SELECT @statusCode AS N'statusCode',
+	@responseMessage AS N'responseMessage';
 
 --Incorrect password
 DECLARE @statusCode INT
@@ -83,8 +83,8 @@ EXEC dbo.uspLogin @pUserName = N'Admin',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode AS N'@statusCode',
-	@responseMessage AS N'@responseMessage';
+SELECT @statusCode AS N'statusCode',
+	@responseMessage AS N'responseMessage';
 
 --User inactive
 DECLARE @statusCode INT
@@ -95,5 +95,5 @@ EXEC dbo.uspLogin @pUserName = N'Admin2',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode AS N'@statusCode',
-	@responseMessage AS N'@responseMessage';
+SELECT @statusCode AS N'statusCode',
+	@responseMessage AS N'responseMessage';

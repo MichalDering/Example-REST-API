@@ -53,8 +53,8 @@ EXEC dbo.uspAddUser @pUserName = N'Admin',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode AS N'@statusCode',
-	@responseMessage AS N'@responseMessage'
+SELECT @statusCode AS N'statusCode',
+	@responseMessage AS N'responseMessage'
 
 SELECT id,
 	userName,
@@ -79,8 +79,8 @@ EXEC dbo.uspAddUser @pUserName = N'Admin2',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
 
-SELECT @statusCode AS N'@statusCode',
-	@responseMessage AS N'@responseMessage'
+SELECT @statusCode AS N'statusCode',
+	@responseMessage AS N'responseMessage'
 
 SELECT id,
 	userName,
