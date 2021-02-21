@@ -7,6 +7,9 @@ async function getUsers(res) {
     let result = await pool.request()
       .query('SELECT * FROM Users');
 
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
     res.send(result.recordset);
   } catch (err) {
     // ... error checks
@@ -25,6 +28,9 @@ async function getUser(id, res) {
       .input('id', sql.Int, id)
       .query('SELECT * FROM Users WHERE id = @id');
 
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
     res.send(result.recordset);
   } catch (err) {
     // ... error checks
@@ -102,6 +108,9 @@ async function updateUser(id, body, res) {
 
               SELECT @statusCode AS N'@statusCode', @responseMessage AS N'@responseMessage'`);
 
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
     res.json(result.recordset);
   } catch (err) {
     // ... error checks
@@ -119,6 +128,10 @@ async function deleteUser(id) {
     let result = await pool.request()
       .input('id', sql.Int, id)
       .query('DELETE FROM Users WHERE id = @id');
+
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
   } catch (err) {
     // ... error checks
     console.log(err);

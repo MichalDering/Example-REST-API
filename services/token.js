@@ -1,7 +1,7 @@
 const config = require("../config");
 const sql = require("mssql");
 
-async function checkUser(body, res) {
+async function loginUser(body, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -18,6 +18,9 @@ async function checkUser(body, res) {
                   @responseMessage = @responseMessage OUTPUT
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
 
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
     return result.recordset;
   } catch (err) {
     // ... error checks
@@ -27,4 +30,4 @@ async function checkUser(body, res) {
   }
 }
 
-module.exports.checkUser = checkUser;
+module.exports.loginUser = loginUser;

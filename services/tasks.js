@@ -7,7 +7,9 @@ async function getTasks(res) {
     let result = await pool.request()
       .query('SELECT * FROM Tasks');
 
-    console.dir(result.recordset);
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
     res.send(result.recordset);
   } catch (err) {
     // ... error checks
@@ -26,6 +28,9 @@ async function getTask(id, res) {
       .input('id', sql.Int, id)
       .query('SELECT * FROM Tasks WHERE id = @id');
 
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
     res.send(result.recordset);
   } catch (err) {
     // ... error checks
@@ -67,6 +72,10 @@ async function updateTask(id, body) {
       .input('status', sql.NVarChar, body.status)
       .input('id', sql.Int, id)
       .query('UPDATE Tasks SET userId = @userId, summary = @summary, status = @status WHERE id = @id');
+
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -83,6 +92,10 @@ async function deleteTask(id) {
     let result = await pool.request()
       .input('id', sql.Int, id)
       .query('DELETE FROM Tasks WHERE id = @id');
+
+    if (result.recordset.length === 0) {
+      res.status(404);
+    }
   } catch (err) {
     // ... error checks
     console.log(err);
