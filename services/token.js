@@ -18,9 +18,6 @@ async function loginUser(body, res) {
                   @responseMessage = @responseMessage OUTPUT
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
 
-    if (result.recordset.length === 0) {
-      res.status(404);
-    }
     return result.recordset;
   } catch (err) {
     // ... error checks
