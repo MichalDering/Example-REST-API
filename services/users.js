@@ -11,6 +11,7 @@ async function getUsers(res) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
@@ -28,6 +29,7 @@ async function getUser(id, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
@@ -66,6 +68,7 @@ async function addUser(body, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
@@ -103,6 +106,7 @@ async function updateUser(id, body, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
@@ -118,6 +122,7 @@ async function deleteUser(id) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }

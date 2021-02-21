@@ -22,6 +22,7 @@ async function checkUser(body, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     return err;
   }
 }

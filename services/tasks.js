@@ -12,6 +12,7 @@ async function getTasks(res) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
@@ -29,6 +30,7 @@ async function getTask(id, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
@@ -49,6 +51,7 @@ async function addTask(body, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
@@ -67,6 +70,7 @@ async function updateTask(id, body) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
@@ -82,6 +86,7 @@ async function deleteTask(id) {
   } catch (err) {
     // ... error checks
     console.log(err);
+    res.status(500);
     res.send(err);
   }
 }
