@@ -128,8 +128,6 @@ async function updateUser(id, body, res) {
 
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage', @newUserName AS N'userName', @newFirstName AS N'firstName', @newLastName AS N'lastName', @newActive AS N'active', @newComment AS N'comment'`);
 
-    console.log(result);
-    // TODO consider: in case of success return also a whole new object
     const output = {
       statusCode: result.recordset[0].statusCode,
       responseMessage: result.recordset[0].responseMessage,
@@ -166,6 +164,7 @@ async function deleteUser(id, res) {
     let result = await pool.request()
       .input('id', sql.Int, id)
       .query('DELETE FROM Users WHERE id = @id');
+      // TODO delete user or deactivate user: here a stored procedure would be more suggested
 
     const output = {
       statusCode: 0,
