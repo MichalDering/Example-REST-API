@@ -105,6 +105,11 @@ async function updateUser(id, body, res) {
       .output('@responseMessage', sql.NVarChar(250))
       .query(`DECLARE @statusCode INT
               DECLARE @responseMessage NVARCHAR(250)
+              DECLARE @newUserName NVARCHAR(50)
+              DECLARE @newFirstName NVARCHAR(80)
+              DECLARE @newLastName NVARCHAR(80)
+              DECLARE @newActive BIT
+              DECLARE @newComment NVARCHAR(80)
               
               EXEC dbo.uspUpdateUser
                   @pId = @id,
@@ -114,9 +119,14 @@ async function updateUser(id, body, res) {
                   @pActive = @active,
                   @pComment = @comment,
                   @statusCode = @statusCode OUTPUT,
-                  @responseMessage = @responseMessage OUTPUT
+                  @responseMessage = @responseMessage OUTPUT,
+                  @newUserName = @newUserName OUTPUT,
+                  @newFirstName = @newFirstName OUTPUT,
+                  @newLastName = @newLastName OUTPUT,
+                  @newActive = @newActive OUTPUT,
+                  @newComment = @newComment OUTPUT
 
-              SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
+              SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage', @newUserName AS N'userName', @newFirstName AS N'firstName', @newLastName AS N'lastName', @newActive AS N'active', @newComment AS N'comment'`);
 
     console.log(result);
     // TODO consider: in case of success return also a whole new object
@@ -126,6 +136,13 @@ async function updateUser(id, body, res) {
     }
     if (output.statusCode === 0) {
       res.status(200);
+      output.record = {
+        userName: result.recordset[0].userName,
+        firstName: result.recordset[0].firstName,
+        lastName: result.recordset[0].lastName,
+        active: result.recordset[0].active,
+        comment: result.recordset[0].comment,
+      }
     } else if (output.statusCode === 1) {
       res.status(404);
     } else {
