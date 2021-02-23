@@ -1,0 +1,413 @@
+swagger: '2.0'
+info:
+  description: API
+  version: 1.0.0
+  title: WorkLogs API
+  termsOfService: ''
+  contact:
+    email: michal.dering@globallogic.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: localhost:5000
+basePath: /v1
+tags:
+  - name: user
+    description: Users management
+  - name: task
+    description: User's Tasks
+  - name: worklog
+    description: Number of reported hours by Users on Tasks
+
+schemes:
+  - http
+  
+paths:
+
+  '/login':
+    get:
+      tags:
+        - user
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Data for login
+          required: true
+          schema:
+            $ref: '#/definitions/UserLoginData'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+        #'400':
+        #  description: Invalid username/password supplied
+
+  '/users':
+    get:
+      tags:
+        - user
+      summary: Get all users
+      description: ''
+      operationId: getUsers
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: User not found
+    post:
+      tags:
+        - user
+      summary: Add a new user
+      description: ''
+      operationId: addUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/UserToAdd'
+      responses:
+        '201':
+          description: Success
+        '409':
+          description: Could not add a user. Database error. Possible conflict.
+    
+  '/users/{id}':
+    get:
+      tags:
+        - user
+      summary: Get user by id
+      description: ''
+      operationId: getUser
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the user that needs to be fetched
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        #'400':
+        #  description: Invalid username supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - user
+      summary: Update user
+      description: ''
+      operationId: updateUser
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the user that needs to be updated
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: body
+          description: User object for update
+          required: true
+          schema:
+            $ref: '#/definitions/UserToUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/UserUpdated'
+        #'400':
+        #  description: Invalid user supplied
+        '404':
+          description: User not found
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: ''
+      operationId: deleteUser
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the user that needs to be deleted
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+        #'400':
+        #  description: Invalid username supplied
+        '404':
+          description: User not found
+
+  '/tasks':
+    get:
+      tags:
+        - task
+      summary: Get all users
+      description: ''
+      operationId: getTasks
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: User not found
+    post:
+      tags:
+        - task
+      summary: Add a new user
+      description: ''
+      operationId: addTask
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/UserToAdd'
+      responses:
+        '201':
+          description: Success
+        '409':
+          description: Could not add a user. Database error. Possible conflict.
+    
+  '/tasks/{id}':
+    get:
+      tags:
+        - task
+      summary: Get user by id
+      description: ''
+      operationId: getTask
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the user that needs to be fetched
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        #'400':
+        #  description: Invalid username supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - task
+      summary: Update user
+      description: ''
+      operationId: updateTask
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the user that needs to be updated
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: body
+          description: User object for update
+          required: true
+          schema:
+            $ref: '#/definitions/UserToUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/UserUpdated'
+        #'400':
+        #  description: Invalid user supplied
+        '404':
+          description: User not found
+    delete:
+      tags:
+        - task
+      summary: Delete user
+      description: ''
+      operationId: deleteTask
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the user that needs to be deleted
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+        #'400':
+        #  description: Invalid username supplied
+        '404':
+          description: User not found
+    
+definitions:
+
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      userName:
+        type: string
+      passwordHash:
+        type: string
+      salt:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      active:
+        type: boolean
+      comment:
+        type: string
+        
+  UserToAdd:
+    type: object
+    properties:
+      userName:
+        type: string
+      password:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      active:
+        type: boolean
+        default: true
+      comment:
+        type: string
+        
+  UserToUpdate:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      password:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      active:
+        type: boolean
+        default: true
+      comment:
+        type: string
+  
+  UserUpdated:
+    type: object
+    properties:
+      userName:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      active:
+        type: boolean
+      comment:
+        type: string
+        
+  UserLoginData:
+    type: object
+    properties:
+      userName:
+        type: string
+      password:
+        type: string
+        
+  Tasks:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      userId:
+        type: integer
+        format: int32
+      summary:
+        type: string
+      status:
+        type: string
+        description: Task Status
+        enum:
+          - new
+          - inprogress
+          - done
+          
+  WorkLog:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      userId:
+        type: integer
+        format: int32
+      taskId:
+        type: integer
+        format: int32
+      reportedHours:
+        type: integer
+        format: int32
+      
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+        
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
