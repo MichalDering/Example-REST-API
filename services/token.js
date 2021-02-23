@@ -18,6 +18,7 @@ async function loginUser(body, res) {
                   @responseMessage = @responseMessage OUTPUT
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
 
+    // TODO return 400 if Invalid username/password supplied
     return result.recordset;
   } catch (err) {
     // ... error checks
