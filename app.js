@@ -3,6 +3,9 @@ const express = require('express');
 const passport = require('passport');
 const routes = require('./routes');
 const services = require('./services');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 const app = express();
 app.use(express.json());
@@ -14,6 +17,8 @@ routes.token.createTokenRoutes(app, basePath, services);
 routes.users.createUsersRoutes(app, passport, basePath, services);
 routes.tasks.createTasksRoutes(app, passport, basePath, services);
 routes.worklogs.createWorkLogsRoutes(app, passport, basePath, services);
+
+app.use('/api-docs', swaggerUi.serve,   swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
 
