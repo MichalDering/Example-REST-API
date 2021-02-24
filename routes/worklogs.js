@@ -17,14 +17,12 @@ function createWorkLogsRoutes(app, passport, basePath, services) {
 
   app.put(basePath + 'worklogs/:id', passport.authenticate('bearer', config.passportAuthenticateOptions), (req, res) => {
     const { id } = req.params;
-    services.worklogs.updateWorkLog(id, req.body);
-    res.json(req.body);
+    services.worklogs.updateWorkLog(id, req.body, res);
   })
 
   app.delete(basePath + 'worklogs/:id', passport.authenticate('bearer', config.passportAuthenticateOptions), (req, res) => {
     const { id } = req.params;
-    services.worklogs.deleteWorkLog(id);
-    res.json({ deleted: id });
+    services.worklogs.deleteWorkLog(id, res);
   })
 }
 

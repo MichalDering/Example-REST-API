@@ -63,7 +63,7 @@ async function addTask(body, res) {
 
 module.exports.addTask = addTask;
 
-async function updateTask(id, body) {
+async function updateTask(id, body, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -76,6 +76,8 @@ async function updateTask(id, body) {
     if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
+    // TODO result currently empty. Add a proper result.
+    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -86,7 +88,7 @@ async function updateTask(id, body) {
 
 module.exports.updateTask = updateTask;
 
-async function deleteTask(id) {
+async function deleteTask(id, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -95,6 +97,12 @@ async function deleteTask(id) {
 
     if (result.rowsAffected[0] === 0) {
       res.status(404);
+      res.send({
+        message: 'Task to delete not found, id: ' + id,
+        code: 404
+      });
+    } else {
+      res.send({ message: 'Deleted task with id: ' + id });
     }
   } catch (err) {
     // ... error checks

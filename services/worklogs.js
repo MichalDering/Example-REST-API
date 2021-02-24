@@ -63,7 +63,7 @@ async function addWorkLog(body, res) {
 
 module.exports.addWorkLog = addWorkLog;
 
-async function updateWorkLog(id, body) {
+async function updateWorkLog(id, body, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -76,6 +76,8 @@ async function updateWorkLog(id, body) {
     if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
+    // TODO result currently empty. Add a proper result.
+    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -86,7 +88,7 @@ async function updateWorkLog(id, body) {
 
 module.exports.updateWorkLog = updateWorkLog;
 
-async function deleteWorkLog(id) {
+async function deleteWorkLog(id, res) {
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -95,6 +97,12 @@ async function deleteWorkLog(id) {
 
     if (result.rowsAffected[0] === 0) {
       res.status(404);
+      res.send({
+        message: 'WorkLogs to delete not found, id: ' + id,
+        code: 404
+      });
+    } else {
+      res.send({ message: 'Deleted workLog with id: ' + id });
     }
   } catch (err) {
     // ... error checks
