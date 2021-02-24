@@ -1,4 +1,5 @@
 const config = require("../config");
+const envelope = require("../utils/envelope");
 const sql = require("mssql");
 
 async function getWorkLogs(res) {
@@ -10,12 +11,12 @@ async function getWorkLogs(res) {
     if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
-    res.send(result.recordset);
+    res.send(envelope.success(result.recordset));
   } catch (err) {
     // ... error checks
     console.log(err);
     res.status(500);
-    res.send(err);
+    res.send(envelope.error(err));
   }
 }
 
