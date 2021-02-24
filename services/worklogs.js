@@ -7,7 +7,7 @@ async function getWorkLogs(res) {
     let result = await pool.request()
       .query('SELECT * FROM WorkLogs');
 
-    if (result.recordset.length === 0) {
+    if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
     res.send(result.recordset);
@@ -28,7 +28,7 @@ async function getWorkLog(id, res) {
       .input('id', sql.Int, id)
       .query('SELECT * FROM WorkLogs WHERE id = @id');
 
-    if (result.recordset.length === 0) {
+    if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
     res.send(result.recordset);
@@ -73,7 +73,7 @@ async function updateWorkLog(id, body) {
       .input('id', sql.Int, id)
       .query('UPDATE WorkLogs SET userId = @userId, taskId = @taskId, reportedHours = @reportedHours WHERE id = @id');
 
-    if (result.recordset.length === 0) {
+    if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
   } catch (err) {
@@ -93,7 +93,7 @@ async function deleteWorkLog(id) {
       .input('id', sql.Int, id)
       .query('DELETE FROM WorkLogs WHERE id = @id');
 
-    if (result.recordset.length === 0) {
+    if (result.rowsAffected[0] === 0) {
       res.status(404);
     }
   } catch (err) {
