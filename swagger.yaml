@@ -31,6 +31,8 @@ paths:
       summary: Logs user into the system
       description: ''
       operationId: loginUser
+      consumes:
+        - application/json
       produces:
         - application/json
       parameters:
@@ -118,6 +120,8 @@ paths:
       summary: Update user
       description: ''
       operationId: updateUser
+      consumes:
+        - application/json
       produces:
         - application/json
       parameters:
@@ -169,7 +173,7 @@ paths:
     get:
       tags:
         - task
-      summary: Get all users
+      summary: Get all tasks
       description: ''
       operationId: getTasks
       produces:
@@ -178,13 +182,13 @@ paths:
         '200':
           description: Success
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Task'
         '404':
-          description: User not found
+          description: Task not found
     post:
       tags:
         - task
-      summary: Add a new user
+      summary: Add a new task
       description: ''
       operationId: addTask
       consumes:
@@ -194,21 +198,19 @@ paths:
       parameters:
         - in: body
           name: body
-          description: User object that needs to be added
+          description: Task object that needs to be added
           required: true
           schema:
-            $ref: '#/definitions/UserToAdd'
+            $ref: '#/definitions/TaskToAdd'
       responses:
         '201':
           description: Success
-        '409':
-          description: Could not add a user. Database error. Possible conflict.
     
   '/tasks/{id}':
     get:
       tags:
         - task
-      summary: Get user by id
+      summary: Get task by id
       description: ''
       operationId: getTask
       produces:
@@ -216,7 +218,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: id of the user that needs to be fetched
+          description: id of the task that needs to be fetched
           required: true
           type: integer
           format: int32
@@ -224,45 +226,47 @@ paths:
         '200':
           description: Success
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Task'
         #'400':
         #  description: Invalid username supplied
         '404':
-          description: User not found
+          description: Task not found
     put:
       tags:
         - task
-      summary: Update user
+      summary: Update task
       description: ''
       operationId: updateTask
+      consumes:
+        - application/json
       produces:
         - application/json
       parameters:
         - name: id
           in: path
-          description: id of the user that needs to be updated
+          description: id of the task that needs to be updated
           required: true
           type: integer
           format: int32
         - in: body
           name: body
-          description: User object for update
+          description: Task object for update
           required: true
           schema:
-            $ref: '#/definitions/UserToUpdate'
+            $ref: '#/definitions/TaskToUpdate'
       responses:
         '200':
           description: Success
           schema:
-            $ref: '#/definitions/UserUpdated'
+            $ref: '#/definitions/TaskUpdated'
         #'400':
         #  description: Invalid user supplied
         '404':
-          description: User not found
+          description: Task not found
     delete:
       tags:
         - task
-      summary: Delete user
+      summary: Delete task
       description: ''
       operationId: deleteTask
       produces:
@@ -270,7 +274,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: id of the user that needs to be deleted
+          description: id of the task that needs to be deleted
           required: true
           type: integer
           format: int32
@@ -280,7 +284,124 @@ paths:
         #'400':
         #  description: Invalid username supplied
         '404':
-          description: User not found
+          description: Task not found
+          
+  '/worklogs':
+    get:
+      tags:
+        - worklog
+      summary: Get all workLogs
+      description: ''
+      operationId: getWorkLogs
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/WorkLog'
+        '404':
+          description: WorkLog not found
+    post:
+      tags:
+        - worklog
+      summary: Add a new workLog
+      description: ''
+      operationId: addWorkLog
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: WorkLog object that needs to be added
+          required: true
+          schema:
+            $ref: '#/definitions/WorkLogToAdd'
+      responses:
+        '201':
+          description: Success
+    
+  '/worklogs/{id}':
+    get:
+      tags:
+        - worklog
+      summary: Get workLog by id
+      description: ''
+      operationId: getWorkLog
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the workLog that needs to be fetched
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/WorkLog'
+        #'400':
+        #  description: Invalid username supplied
+        '404':
+          description: WorkLog not found
+    put:
+      tags:
+        - worklog
+      summary: Update workLog
+      description: ''
+      operationId: updateWorkLog
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the workLog that needs to be updated
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: body
+          description: WorkLog object for update
+          required: true
+          schema:
+            $ref: '#/definitions/WorkLogToUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/WorkLogUpdated'
+        #'400':
+        #  description: Invalid user supplied
+        '404':
+          description: WorkLog not found
+    delete:
+      tags:
+        - worklog
+      summary: Delete workLog
+      description: ''
+      operationId: deleteWorkLog
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the workLog that needs to be deleted
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Success
+        #'400':
+        #  description: Invalid username supplied
+        '404':
+          description: WorkLog not found
     
 definitions:
 
@@ -362,7 +483,7 @@ definitions:
       password:
         type: string
         
-  Tasks:
+  Task:
     type: object
     properties:
       id:
@@ -380,13 +501,100 @@ definitions:
           - new
           - inprogress
           - done
+
+  TaskToAdd:
+    type: object
+    properties:
+      userId:
+        type: integer
+        format: int32
+      summary:
+        type: string
+      status:
+        type: string
+        description: Task Status
+        enum:
+          - new
+          - inprogress
+          - done
           
+  TaskToUpdate:
+    type: object
+    properties:
+      userId:
+        type: integer
+        format: int32
+      summary:
+        type: string
+      status:
+        type: string
+        description: Task Status
+        enum:
+          - new
+          - inprogress
+          - done
+          
+  TaskUpdated:
+    type: object
+    properties:
+      userId:
+        type: integer
+        format: int32
+      summary:
+        type: string
+      status:
+        type: string
+        description: Task Status
+        enum:
+          - new
+          - inprogress
+          - done
+  
   WorkLog:
     type: object
     properties:
       id:
         type: integer
         format: int32
+      userId:
+        type: integer
+        format: int32
+      taskId:
+        type: integer
+        format: int32
+      reportedHours:
+        type: integer
+        format: int32
+    
+  WorkLogToAdd:
+    type: object
+    properties:
+      userId:
+        type: integer
+        format: int32
+      taskId:
+        type: integer
+        format: int32
+      reportedHours:
+        type: integer
+        format: int32
+        
+  WorkLogToUpdate:
+    type: object
+    properties:
+      userId:
+        type: integer
+        format: int32
+      taskId:
+        type: integer
+        format: int32
+      reportedHours:
+        type: integer
+        format: int32
+        
+  WorkLogUpdated:
+    type: object
+    properties:
       userId:
         type: integer
         format: int32
