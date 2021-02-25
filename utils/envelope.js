@@ -8,9 +8,10 @@ module.exports = {
 	 * @param {Number} statusCode
 	 * @param {Array} data
 	 * @param {String} message
+	 * @param {Number} errorCode
 	 * @return {Object}
 	 */
-	success: (statusCode, data, message) => {
+	success: (statusCode, data, message, errorCode) => {
 
 		if (statusCode == null) {
 			statusCode = undefined;
@@ -21,12 +22,15 @@ module.exports = {
 		if (message == null) {
 			message = '';
 		}
+		if (errorCode == null) {
+			errorCode = -1;
+		}
 
 		return {
 			'status': 'success',
 			'message': message,
 			'statusCode': statusCode,
-			'errorCode': 0,
+			'errorCode': errorCode,
 			'result': data,
 		};
 	},

@@ -1,4 +1,5 @@
 const config = require("../config");
+const envelope = require("../utils/envelope");
 const sql = require("mssql");
 
 async function loginUser(body, res) {
@@ -19,12 +20,14 @@ async function loginUser(body, res) {
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
 
     // TODO return 400 if Invalid username/password supplied
-    return result.recordset;
+    let statusCode = 200;
+    return envelope.success(statusCode, null, result.recordset[0].responseMessage, result.recordset[0].statusCode);
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    return err;
+    let statusCode = 500;
+    res.status(statusCode);
+    return envelope.error(statusCode, err.message);
   }
 }
 

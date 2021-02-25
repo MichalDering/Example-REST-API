@@ -8,17 +8,13 @@ function createTokenRoutes(app, basePath, services) {
   app.post(basePath + 'login', async (req, res) => {
     const result = await services.token.loginUser(req.body, res);
 
-    if (result[0].statusCode == 0) {
+    if (result.errorCode == 0) {
       jwt.sign({}, config.secretKey, { expiresIn: config.tokenExpiresIn, issuer: config.tokenIssuer }, (err, token) => {
-        res.json({
-          result,
-          token,
-        })
+        result.token = token;
+        res.send(result)
       })
     } else {
-      res.json({
-        result,
-      })
+      res.send(result)
     }
   })
 }
@@ -74,6 +70,7 @@ function configurePassport(app, passport) {
 
   // Middleware error handler to output json response instead of html
   function handleError(err, req, res, next) {
+    // TODO change error output to use envelope
     const output = {
       error: {
         code: err.status,
