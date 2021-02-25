@@ -27,7 +27,7 @@ module.exports = {
 		}
 
 		return {
-			'status': 'success',
+			'status': 'Success',
 			'message': message,
 			'statusCode': statusCode,
 			'errorCode': errorCode,
@@ -56,7 +56,7 @@ module.exports = {
 		}
 
 		return {
-			'status': 'error',
+			'status': 'Error',
 			'message': message,
 			'statusCode': statusCode,
 			'errorCode': errorCode,
