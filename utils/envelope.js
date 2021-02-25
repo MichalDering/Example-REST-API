@@ -23,7 +23,7 @@ module.exports = {
 			message = '';
 		}
 		if (errorCode == null) {
-			errorCode = -1;
+			errorCode = 0;
 		}
 
 		return {
