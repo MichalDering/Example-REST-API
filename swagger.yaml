@@ -12,7 +12,7 @@ servers:
   - url: http://localhost:5000/v1
 paths:
 
-  '/login':
+  '/users/login':
     post:
       summary: Logs user into the system
       operationId: loginUser
@@ -423,9 +423,6 @@ components:
     UserToUpdate:
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
         password:
           type: string
         firstName:
@@ -490,9 +487,6 @@ components:
     TaskToUpdate:
       type: object
       properties:
-        userId:
-          type: integer
-          format: int32
         summary:
           type: string
         status:
