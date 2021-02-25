@@ -5,12 +5,16 @@ module.exports = {
 	/**
 	 * Wraps response data in an envelope in case of success.
 	 *
+	 * @param {Number} statusCode
 	 * @param {Array} data
 	 * @param {String} message
 	 * @return {Object}
 	 */
-	success: (data, message) => {
+	success: (statusCode, data, message) => {
 
+		if (statusCode == null) {
+			statusCode = undefined;
+		}
 		if (data == null) {
 			data = [];
 		}
@@ -20,21 +24,26 @@ module.exports = {
 
 		return {
 			'status': 'success',
+			'message': message,
+			'statusCode': statusCode,
 			'errorCode': 0,
 			'result': data,
-			'message': message,
 		};
 	},
 
 	/**
 	 * Wraps response data in an envelope in case of error.
 	 *
+	 * @param {Number} statusCode
 	 * @param {String} message
 	 * @param {Number} errorCode
 	 * @return {Object}
 	 */
-	error: (message, errorCode) => {
+	error: (statusCode, message, errorCode) => {
 
+		if (statusCode == null) {
+			statusCode = undefined;
+		}
 		if (message == null) {
 			message = '';
 		}
@@ -44,9 +53,10 @@ module.exports = {
 
 		return {
 			'status': 'error',
+			'message': message,
+			'statusCode': statusCode,
 			'errorCode': errorCode,
 			'result': [],
-			'message': message,
 		};
 	},
 };

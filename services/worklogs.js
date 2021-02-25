@@ -8,15 +8,20 @@ async function getWorkLogs(res) {
     let result = await pool.request()
       .query('SELECT * FROM WorkLogs');
 
+    let statusCode = 200;
+    let message = 'WorkLogs found';
     if (result.rowsAffected[0] === 0) {
-      res.status(404);
+      statusCode = 404;
+      res.status(statusCode);
+      message = 'No workLog found';
     }
-    res.send(envelope.success(result.recordset));
+    res.send(envelope.success(statusCode, result.recordset, message));
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(envelope.error(err));
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -29,15 +34,20 @@ async function getWorkLog(id, res) {
       .input('id', sql.Int, id)
       .query('SELECT * FROM WorkLogs WHERE id = @id');
 
+    let statusCode = 200;
+    let message = 'WorkLog found';
     if (result.rowsAffected[0] === 0) {
-      res.status(404);
+      statusCode = 404;
+      res.status(statusCode);
+      message = 'WorkLog not found';
     }
-    res.send(result.recordset);
+    res.send(envelope.success(statusCode, result.recordset, message));
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -52,13 +62,15 @@ async function addWorkLog(body, res) {
       .input('reportedHours', sql.Int, body.reportedHours)
       .query('INSERT INTO WorkLogs (userId, taskId, reportedHours) VALUES (@userId, @taskId, @reportedHours)');
 
-    res.status(201);
-    res.send(result.recordset);
+    let statusCode = 201;
+    res.status(statusCode);
+    res.send(envelope.success(statusCode, result.recordset, 'WorkLog created'));
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -74,16 +86,21 @@ async function updateWorkLog(id, body, res) {
       .input('id', sql.Int, id)
       .query('UPDATE WorkLogs SET userId = @userId, taskId = @taskId, reportedHours = @reportedHours WHERE id = @id');
 
+    let statusCode = 200;
+    let message = 'WorkLog updated';
     if (result.rowsAffected[0] === 0) {
-      res.status(404);
+      statusCode = 404;
+      res.status(statusCode);
+      message = 'WorkLog to update not found';
     }
     // TODO result currently empty. Add a proper result.
-    res.send(result.recordset);
+    res.send(envelope.success(statusCode, result.recordset, message));
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -96,20 +113,20 @@ async function deleteWorkLog(id, res) {
       .input('id', sql.Int, id)
       .query('DELETE FROM WorkLogs WHERE id = @id');
 
+    let statusCode = 200;
+    let message = 'WorkLog deleted';
     if (result.rowsAffected[0] === 0) {
-      res.status(404);
-      res.send({
-        message: 'WorkLogs to delete not found, id: ' + id,
-        code: 404
-      });
-    } else {
-      res.send({ message: 'Deleted workLog with id: ' + id });
+      statusCode = 404;
+      res.status(statusCode);
+      message = 'WorkLog to delete not found';
     }
+    res.send(envelope.success(statusCode, null, message));
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
