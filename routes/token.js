@@ -5,7 +5,7 @@ Strategy = require('passport-http-bearer').Strategy;
 function createTokenRoutes(app, basePath, services) {
 
   // login to get the token
-  app.post(basePath + 'login', async (req, res) => {
+  app.post(basePath + 'users/login', async (req, res) => {
     const result = await services.token.loginUser(req.body, res);
 
     if (result.errorCode == 0) {
