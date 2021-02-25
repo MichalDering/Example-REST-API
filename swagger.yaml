@@ -487,6 +487,9 @@ components:
     TaskToUpdate:
       type: object
       properties:
+        userId:
+          type: integer
+          format: int32
         summary:
           type: string
         status:
