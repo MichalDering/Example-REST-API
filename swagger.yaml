@@ -360,8 +360,18 @@ paths:
         #  description: Invalid username supplied
         '404':
           description: WorkLog not found
+
+security:
+  - bearerAuth: []           
           
 components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
   schemas:
       
     UserLoginData:
@@ -563,4 +573,4 @@ components:
         reportedHours:
           type: integer
           format: int32
-          
+  
