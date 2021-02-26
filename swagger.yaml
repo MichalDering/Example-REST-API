@@ -291,6 +291,7 @@ paths:
       responses:
         '201':
           description: Success
+          # TODO no schema
         '401':
           description: Unauthorized Error
           content:
@@ -408,6 +409,10 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskDeleted"
         #'400':
         #  description: Invalid username supplied
         '401':
@@ -878,6 +883,12 @@ components:
             - new
             - inprogress
             - done
+            
+    TaskDeleted:
+      type: object
+      properties:
+        message:
+          type: string
     
     WorkLog:
       type: object
