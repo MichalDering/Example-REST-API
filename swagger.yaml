@@ -31,7 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserLoginState"
+                $ref: "#/components/schemas/UserLoginOutput"
         #'400':
         #  description: Invalid username/password supplied
         '401':
@@ -677,7 +677,7 @@ components:
         password:
           type: string
           
-    UserLoginState:
+    UserLoginOutput:
       type: object
       properties:
         status:
