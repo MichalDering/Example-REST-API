@@ -105,6 +105,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '409':
           description: Could not add a user. Database error. Possible conflict.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConflictError"
         '500':
           description: Server Error
           content:
@@ -668,6 +672,15 @@ components:
         result:
           type: array
           items: {}
+          
+    ConflictError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+        responseMessage:
+          type: string
       
     UserLoginData:
       type: object
