@@ -14,8 +14,10 @@ async function getWorkLogs(res) {
       statusCode = 404;
       res.status(statusCode);
       message = 'No workLog found';
+      res.send(envelope.error(statusCode, message));
+    } else {
+      res.send(envelope.success(statusCode, result.recordset, message));
     }
-    res.send(envelope.success(statusCode, result.recordset, message));
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -40,8 +42,10 @@ async function getWorkLog(id, res) {
       statusCode = 404;
       res.status(statusCode);
       message = 'WorkLog not found';
+      res.send(envelope.error(statusCode, message));
+    } else {
+      res.send(envelope.success(statusCode, result.recordset, message));
     }
-    res.send(envelope.success(statusCode, result.recordset, message));
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -92,9 +96,11 @@ async function updateWorkLog(id, body, res) {
       statusCode = 404;
       res.status(statusCode);
       message = 'WorkLog to update not found';
+      res.send(envelope.error(statusCode, message));
+    } else {
+      // TODO result currently empty. Add a proper result.
+      res.send(envelope.success(statusCode, result.recordset, message));
     }
-    // TODO result currently empty. Add a proper result.
-    res.send(envelope.success(statusCode, result.recordset, message));
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -119,8 +125,10 @@ async function deleteWorkLog(id, res) {
       statusCode = 404;
       res.status(statusCode);
       message = 'WorkLog to delete not found';
+      res.send(envelope.error(statusCode, message));
+    } else {
+      res.send(envelope.success(statusCode, null, message));
     }
-    res.send(envelope.success(statusCode, null, message));
   } catch (err) {
     // ... error checks
     console.log(err);
