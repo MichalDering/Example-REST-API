@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/ArrayOfUsers"
         '401':
           description: Unauthorized Error
           content:
@@ -652,6 +652,29 @@ components:
         comment:
           type: string
           
+    ArrayOfUsers:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int32
+          userName:
+            type: string
+          passwordHash:
+            type: string
+          salt:
+            type: string
+          firstName:
+            type: string
+          lastName:
+            type: string
+          active:
+            type: boolean
+          comment:
+            type: string
+
     UserToAdd:
       type: object
       properties:
