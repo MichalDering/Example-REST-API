@@ -291,7 +291,7 @@ paths:
       responses:
         '201':
           description: Success
-          # TODO no schema
+          # TODO empty schema
         '401':
           description: Unauthorized Error
           content:
@@ -480,6 +480,10 @@ paths:
       responses:
         '201':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkLogAdded'
         '401':
           description: Unauthorized Error
           content:
@@ -918,6 +922,23 @@ components:
         reportedHours:
           type: integer
           format: int32
+          
+    WorkLogAdded:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        errorCode:
+          type: integer
+          format: int32
+        result:
+          type: array
+          items: {}
           
     WorkLogToUpdate:
       type: object
