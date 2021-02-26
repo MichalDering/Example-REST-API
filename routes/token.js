@@ -28,7 +28,7 @@ function configurePassport(app, passport) {
     jwt.verify(token, config.secretKey, (err, authData) => {
       if (err) {
         if (err.name === 'TokenExpiredError') {
-          const error = Error('Token expired');
+          const error = Error('Token expired'); // Create custom UnauthorizedError and cover all 401 errors
           error.status = 401;
           error.info = {
             message: error.message,

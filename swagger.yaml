@@ -28,8 +28,24 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserLoginState"
         #'400':
         #  description: Invalid username/password supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
                 
   '/users':
     get:
@@ -44,8 +60,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: User not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     post:
       summary: Add a new user
       operationId: addUser
@@ -65,8 +93,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '409':
           description: Could not add a user. Database error. Possible conflict.
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
           
   '/users/{id}':
     get:
@@ -91,8 +131,20 @@ paths:
                 $ref: '#/components/schemas/User'
         #'400':
         #  description: Invalid username supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: User not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     put:
       summary: Update user
       operationId: updateUser
@@ -122,8 +174,20 @@ paths:
                 $ref: '#/components/schemas/UserUpdated'
         #'400':
         #  description: Invalid user supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: User not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     delete:
       summary: Delete user
       operationId: deleteUser
@@ -142,8 +206,20 @@ paths:
           description: Success
         #'400':
         #  description: Invalid username supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: User not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
 
   '/tasks':
     get:
@@ -158,8 +234,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: Task not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     post:
       summary: Add a new task
       operationId: addTask
@@ -175,6 +263,18 @@ paths:
       responses:
         '201':
           description: Success
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
           
   '/tasks/{id}':
     get:
@@ -199,8 +299,20 @@ paths:
                 $ref: '#/components/schemas/Task'
         #'400':
         #  description: Invalid username supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: Task not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     put:
       summary: Update task
       operationId: updateTask
@@ -230,8 +342,20 @@ paths:
                 $ref: '#/components/schemas/TaskUpdated'
         #'400':
         #  description: Invalid user supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: Task not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     delete:
       summary: Delete task
       operationId: deleteTask
@@ -250,8 +374,20 @@ paths:
           description: Success
         #'400':
         #  description: Invalid username supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: Task not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
   
   '/worklogs':
     get:
@@ -266,8 +402,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WorkLog'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: WorkLog not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     post:
       summary: Add a new workLog
       operationId: addWorkLog
@@ -283,6 +431,18 @@ paths:
       responses:
         '201':
           description: Success
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
           
   '/worklogs/{id}':
     get:
@@ -307,8 +467,20 @@ paths:
                 $ref: '#/components/schemas/WorkLog'
         #'400':
         #  description: Invalid username supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: WorkLog not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     put:
       summary: Update workLog
       operationId: updateWorkLog
@@ -338,8 +510,20 @@ paths:
                 $ref: '#/components/schemas/WorkLogUpdated'
         #'400':
         #  description: Invalid user supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: WorkLog not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
     delete:
       summary: Delete workLog
       operationId: deleteWorkLog
@@ -358,8 +542,20 @@ paths:
           description: Success
         #'400':
         #  description: Invalid username supplied
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: WorkLog not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DefaultServerError"
 
 security:
   - bearerAuth: []           
@@ -373,6 +569,40 @@ components:
       bearerFormat: JWT
       
   schemas:
+  
+    UnauthorizedError:
+      type: object
+      properties:
+        status:
+          type: string
+        info:
+          type: object
+          properties:
+            message:
+              type: string
+            expiredAt:
+              type: integer
+              format: int32
+            tokenValidFrom:
+              type: integer
+              format: int32
+          
+    DefaultServerError:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        errorCode:
+          type: integer
+          format: int32
+        result:
+          type: array
+          items: {}
       
     UserLoginData:
       type: object
@@ -380,6 +610,25 @@ components:
         userName:
           type: string
         password:
+          type: string
+          
+    UserLoginState:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        errorCode:
+          type: integer
+          format: int32
+        result:
+          type: array
+          items: {}
+        token:
           type: string
           
     User:

@@ -8,6 +8,7 @@ function createWorkLogsRoutes(app, passport, basePath, services) {
 
   app.get(basePath + 'worklogs/:id', passport.authenticate('bearer', config.passportAuthenticateOptions), (req, res) => {
     const { id } = req.params;
+    // TODO verify input
     services.worklogs.getWorkLog(id, res);
   })
 
