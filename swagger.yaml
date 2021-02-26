@@ -68,6 +68,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -139,6 +143,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -182,6 +190,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -214,6 +226,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -242,6 +258,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -307,6 +327,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -350,6 +374,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -382,6 +410,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -410,6 +442,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: WorkLog not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -475,6 +511,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: WorkLog not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -518,6 +558,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: WorkLog not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -550,6 +594,10 @@ paths:
                 $ref: "#/components/schemas/UnauthorizedError"
         '404':
           description: WorkLog not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
         '500':
           description: Server Error
           content:
@@ -586,6 +634,23 @@ components:
             tokenValidFrom:
               type: integer
               format: int32
+          
+    NotFoundError:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        errorCode:
+          type: integer
+          format: int32
+        result:
+          type: array
+          items: {}
           
     DefaultServerError:
       type: object
