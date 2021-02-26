@@ -220,6 +220,10 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+                schema:
+                  $ref: "#/components/schemas/UserDeleted"
         #'400':
         #  description: Invalid username supplied
         '401':
@@ -797,6 +801,15 @@ components:
         active:
           type: boolean
         comment:
+          type: string
+          
+    UserDeleted:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+        responseMessage:
           type: string
           
     Task:
