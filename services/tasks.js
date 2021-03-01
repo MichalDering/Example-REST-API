@@ -1,4 +1,5 @@
 const config = require("../config");
+const envelope = require("../utils/envelope");
 const sql = require("mssql");
 
 async function getTasks(res) {
@@ -9,8 +10,10 @@ async function getTasks(res) {
 
     if (result.rowsAffected[0] === 0) {
       res.status(404);
+      res.send(envelope.error(404, 'Task does not exist', 1));
+    } else {
+      res.send(envelope.success(200, result.recordset));
     }
-    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -30,8 +33,10 @@ async function getTask(id, res) {
 
     if (result.rowsAffected[0] === 0) {
       res.status(404);
+      res.send(envelope.error(404, 'Task does not exist', 1));
+    } else {
+      res.send(envelope.success(200, result.recordset));
     }
-    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -52,7 +57,7 @@ async function addTask(body, res) {
       .query('INSERT INTO Tasks (userId, summary, status) VALUES (@userId, @summary, @status)');
 
     res.status(201);
-    res.send(result.recordset);
+    res.send(envelope.success(201, result.recordset));
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -75,9 +80,11 @@ async function updateTask(id, body, res) {
 
     if (result.rowsAffected[0] === 0) {
       res.status(404);
+      res.send(envelope.error(404, 'Task does not exist', 1));
+    } else {
+      // TODO result currently empty. Add a proper result.
+      res.send(envelope.success(200, result.recordset));
     }
-    // TODO result currently empty. Add a proper result.
-    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -97,12 +104,9 @@ async function deleteTask(id, res) {
 
     if (result.rowsAffected[0] === 0) {
       res.status(404);
-      res.send({
-        message: 'Task to delete not found, id: ' + id,
-        code: 404
-      });
+      res.send(envelope.error(404, 'Task not found'));
     } else {
-      res.send({ message: 'Deleted task with id: ' + id });
+      res.send(envelope.success(200, null, 'Task deleted'));
     }
   } catch (err) {
     // ... error checks
