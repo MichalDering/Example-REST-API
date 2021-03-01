@@ -143,26 +143,30 @@ async function updateUser(id, body, res) {
 
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage', @newUserName AS N'userName', @newFirstName AS N'firstName', @newLastName AS N'lastName', @newActive AS N'active', @newComment AS N'comment'`);
 
-    const output = {
-      statusCode: result.recordset[0].statusCode,
-      responseMessage: result.recordset[0].responseMessage,
-    }
-    if (output.statusCode === 0) {
+    let statusCode =  result.recordset[0].statusCode;
+    let message = result.recordset[0].responseMessage;
+
+    if (statusCode === 0) {
       res.status(200);
-      output.record = {
+      record = {
         userName: result.recordset[0].userName,
         firstName: result.recordset[0].firstName,
         lastName: result.recordset[0].lastName,
         active: result.recordset[0].active,
         comment: result.recordset[0].comment,
       }
-    } else if (output.statusCode === 1) {
+      res.send(envelope.success(200, record, message));
+    } else if (statusCode === 1) {
       res.status(404);
+      res.send(envelope.error(404, message, statusCode));
+    } else if (statusCode === 2) {
+      res.status(500);
+      res.send(envelope.error(500, message, statusCode));
     } else {
       res.status(400);
-      output.responseMessage = 'Could not update a user. Database error.';
+      message = 'Could not update a user. Database error.';
+      res.send(envelope.error(400, message));
     }
-    res.send(output);
   } catch (err) {
     // ... error checks
     console.log(err);
