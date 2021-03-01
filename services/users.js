@@ -186,16 +186,11 @@ async function deleteUser(id, res) {
       .query('DELETE FROM Users WHERE id = @id');
       // TODO delete user or deactivate user: here a stored procedure would be more suggested
 
-    const output = {
-      statusCode: 0,
-      responseMessage: 'User successfully deleted, id: ' + id,
-    }
     if (result.rowsAffected[0] === 0) {
-      res.status(404);
-      output.statusCode = 1;
-      output.responseMessage = 'User does not exist, id: ' + id;
+      res.send(envelope.error(404, 'User does not exist', 1));
+    } else {
+      res.send(envelope.success(200, null, 'User successfully deleted'));
     }
-    res.send(output);
   } catch (err) {
     // ... error checks
     console.log(err);
