@@ -17,8 +17,9 @@ async function getTasks(res) {
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -40,8 +41,9 @@ async function getTask(id, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -61,8 +63,9 @@ async function addTask(body, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -88,8 +91,9 @@ async function updateTask(id, body, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -111,8 +115,9 @@ async function deleteTask(id, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
