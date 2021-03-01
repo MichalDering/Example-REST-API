@@ -1,4 +1,4 @@
-CREATE PROCEDURE dbo.uspLogin @pUserName NVARCHAR(50),
+CREATE PROCEDURE uspLogin @pUserName NVARCHAR(50),
 	@pPassword NVARCHAR(50),
 	@statusCode INT OUTPUT,
 	@responseMessage NVARCHAR(250) = '' OUTPUT
@@ -12,7 +12,7 @@ BEGIN
 
 	SELECT TOP 1 @id = id,
 		@active = active
-	FROM [dbo].[Users]
+	FROM [Users]
 	WHERE userName = @pUserName
 
 	IF (@id IS NOT NULL)
@@ -26,7 +26,7 @@ BEGIN
 		BEGIN
 			SET @userID = (
 					SELECT id
-					FROM [dbo].[Users]
+					FROM [Users]
 					WHERE userName = @pUserName
 						AND passwordHash = HASHBYTES('SHA2_512', @pPassword + CAST(salt AS NVARCHAR(36)))
 					)
@@ -54,7 +54,7 @@ END
 DECLARE @statusCode INT
 DECLARE @responseMessage NVARCHAR(250)
 
-EXEC dbo.uspLogin @pUserName = N'Admin',
+EXEC uspLogin @pUserName = N'Admin',
 	@pPassword = N'123',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
@@ -66,7 +66,7 @@ SELECT @statusCode AS N'statusCode',
 DECLARE @statusCode INT
 DECLARE @responseMessage NVARCHAR(250)
 
-EXEC dbo.uspLogin @pUserName = N'Admin1',
+EXEC uspLogin @pUserName = N'Admin1',
 	@pPassword = N'123',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
@@ -78,7 +78,7 @@ SELECT @statusCode AS N'statusCode',
 DECLARE @statusCode INT
 DECLARE @responseMessage NVARCHAR(250)
 
-EXEC dbo.uspLogin @pUserName = N'Admin',
+EXEC uspLogin @pUserName = N'Admin',
 	@pPassword = N'1234',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
@@ -90,7 +90,7 @@ SELECT @statusCode AS N'statusCode',
 DECLARE @statusCode INT
 DECLARE @responseMessage NVARCHAR(250)
 
-EXEC dbo.uspLogin @pUserName = N'Admin2',
+EXEC uspLogin @pUserName = N'Admin2',
 	@pPassword = N'123',
 	@statusCode = @statusCode OUTPUT,
 	@responseMessage = @responseMessage OUTPUT
