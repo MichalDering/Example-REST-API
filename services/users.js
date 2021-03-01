@@ -46,7 +46,6 @@ async function getUser(id, res) {
       } else {
         res.send(envelope.success(statusCode, result.recordset, message));
       }
-    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -88,12 +87,12 @@ async function addUser(body, res) {
     // TODO in case of success return also a whole new object
     let statusCode = result.recordset[0].statusCode;
     let message = result.recordset[0].responseMessage;
-    if (output.statusCode === 0) {
+    if (statusCode === 0) {
       res.status(201);
       res.send(envelope.success(201, result.recordset, message))
     } else {
       res.status(409);
-      output.responseMessage = 'Could not add a user. Database error. Possible conflict.';
+      message = 'Could not add a user. Database error. Possible conflict.';
       res.send(envelope.error(409, message));
     }
   } catch (err) {
