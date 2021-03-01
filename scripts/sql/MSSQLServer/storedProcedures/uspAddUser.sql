@@ -1,4 +1,4 @@
-CREATE PROCEDURE dbo.uspAddUser @pUserName NVARCHAR(50),
+CREATE PROCEDURE uspAddUser @pUserName NVARCHAR(50),
 	@pPassword NVARCHAR(50),
 	@pFirstName NVARCHAR(80),
 	@pLastName NVARCHAR(80),
@@ -13,7 +13,7 @@ BEGIN
 	DECLARE @salt UNIQUEIDENTIFIER = NEWID()
 
 	BEGIN TRY
-		INSERT INTO dbo.[Users] (
+		INSERT INTO [Users] (
 			userName,
 			passwordHash,
 			salt,
@@ -46,7 +46,7 @@ END
 DECLARE @statusCode INT
 DECLARE @responseMessage NVARCHAR(250)
 
-EXEC dbo.uspAddUser @pUserName = N'Admin',
+EXEC uspAddUser @pUserName = N'Admin',
 	@pPassword = N'123',
 	@pFirstName = N'Admin',
 	@pLastName = N'Administrator',
@@ -64,13 +64,13 @@ SELECT id,
 	lastName,
 	active,
 	comment
-FROM [dbo].[Users]
+FROM [Users]
 
 --example call
 DECLARE @statusCode INT
 DECLARE @responseMessage NVARCHAR(250)
 
-EXEC dbo.uspAddUser @pUserName = N'Admin2',
+EXEC uspAddUser @pUserName = N'Admin2',
 	@pPassword = N'123',
 	@pFirstName = N'Admin2',
 	@pLastName = N'Administrator2',
@@ -90,4 +90,4 @@ SELECT id,
 	lastName,
 	active,
 	comment
-FROM [dbo].[Users]
+FROM [Users]

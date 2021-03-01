@@ -1,4 +1,4 @@
-CREATE PROCEDURE dbo.uspUpdateUser @pId INT,
+CREATE PROCEDURE uspUpdateUser @pId INT,
 	@pPassword NVARCHAR(50) = NULL,
 	@pFirstName NVARCHAR(80) = NULL,
 	@pLastName NVARCHAR(80) = NULL,
@@ -29,7 +29,7 @@ BEGIN
 		@oldLastName = lastName,
 		@oldActive = active,
 		@oldComment = comment
-	FROM [dbo].[Users]
+	FROM [Users]
 	WHERE id = @pId
 
 	IF (@pPassword IS NULL)
@@ -92,7 +92,7 @@ BEGIN
 		@newLastName = lastName,
 		@newActive = active,
 		@newComment = comment
-	FROM [dbo].[Users]
+	FROM [Users]
 	WHERE id = @pId
 END
 
@@ -105,7 +105,7 @@ DECLARE @newLastName NVARCHAR(80)
 DECLARE @newActive BIT
 DECLARE @newComment NVARCHAR(80)
 
-EXEC dbo.uspUpdateUser @pId = 7,
+EXEC uspUpdateUser @pId = 7,
 	@pPassword = N'123',
 	@pFirstName = N'Admin',
 	@pLastName = N'Administrator',
@@ -127,7 +127,7 @@ SELECT id,
 	lastName,
 	active,
 	comment
-FROM [dbo].[Users]
+FROM [Users]
 
 --example call
 DECLARE @statusCode INT
@@ -138,7 +138,7 @@ DECLARE @newLastName NVARCHAR(80)
 DECLARE @newActive BIT
 DECLARE @newComment NVARCHAR(80)
 
-EXEC dbo.uspUpdateUser @pId = 7,
+EXEC uspUpdateUser @pId = 7,
 	@pPassword = N'123',
 	@pFirstName = N'Admin',
 	@pLastName = N'Administrator',
@@ -162,4 +162,4 @@ SELECT id,
 	lastName,
 	active,
 	comment
-FROM [dbo].[Users]
+FROM [Users]
