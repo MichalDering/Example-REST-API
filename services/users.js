@@ -1,4 +1,5 @@
 const config = require("../config");
+const envelope = require("../utils/envelope");
 const sql = require("mssql");
 
 async function getUsers(res) {
@@ -7,15 +8,22 @@ async function getUsers(res) {
     let result = await pool.request()
       .query('SELECT * FROM Users');
 
+    let statusCode = 200;
+    let message = 'Users found';
     if (result.rowsAffected[0] === 0) {
-      res.status(404);
+      statusCode = 404;
+      res.status(statusCode);
+      message = 'No user found';
+      res.send(envelope.error(statusCode, message));
+    } else {
+      res.send(envelope.success(statusCode, result.recordset, message));
     }
-    res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -28,15 +36,23 @@ async function getUser(id, res) {
       .input('id', sql.Int, id)
       .query('SELECT * FROM Users WHERE id = @id');
 
-    if (result.rowsAffected[0] === 0) {
-      res.status(404);
-    }
+      let statusCode = 200;
+      let message = 'User found';
+      if (result.rowsAffected[0] === 0) {
+        statusCode = 404;
+        res.status(statusCode);
+        message = 'No user found';
+        res.send(envelope.error(statusCode, message));
+      } else {
+        res.send(envelope.success(statusCode, result.recordset, message));
+      }
     res.send(result.recordset);
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -70,22 +86,22 @@ async function addUser(body, res) {
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
 
     // TODO in case of success return also a whole new object
-    const output = {
-      statusCode: result.recordset[0].statusCode,
-      responseMessage: result.recordset[0].responseMessage,
-    }
+    let statusCode = result.recordset[0].statusCode;
+    let message = result.recordset[0].responseMessage;
     if (output.statusCode === 0) {
       res.status(201);
+      res.send(envelope.success(201, result.recordset, message))
     } else {
       res.status(409);
       output.responseMessage = 'Could not add a user. Database error. Possible conflict.';
+      res.send(envelope.error(409, message));
     }
-    res.send(output);
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -151,8 +167,9 @@ async function updateUser(id, body, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
@@ -179,8 +196,9 @@ async function deleteUser(id, res) {
   } catch (err) {
     // ... error checks
     console.log(err);
-    res.status(500);
-    res.send(err);
+    let statusCode = 500;
+    res.status(statusCode);
+    res.send(envelope.error(statusCode, err.message));
   }
 }
 
