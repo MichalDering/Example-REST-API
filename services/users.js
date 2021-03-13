@@ -30,22 +30,30 @@ async function getUsers(res) {
 module.exports.getUsers = getUsers;
 
 async function getUser(id, res) {
+  if (isNaN(id)) {
+    let message = id + ' is NOT a number';
+    console.log(message);
+    let statusCode = 400;
+    res.status(statusCode);
+    return res.send(envelope.error(statusCode, message));
+  }
+
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
       .input('id', sql.Int, id)
       .query('SELECT * FROM Users WHERE id = @id');
 
-      let statusCode = 200;
-      let message = 'User found';
-      if (result.rowsAffected[0] === 0) {
-        statusCode = 404;
-        res.status(statusCode);
-        message = 'No user found';
-        res.send(envelope.error(statusCode, message));
-      } else {
-        res.send(envelope.success(statusCode, result.recordset, message));
-      }
+    let statusCode = 200;
+    let message = 'User found';
+    if (result.rowsAffected[0] === 0) {
+      statusCode = 404;
+      res.status(statusCode);
+      message = 'No user found';
+      res.send(envelope.error(statusCode, message));
+    } else {
+      res.send(envelope.success(statusCode, result.recordset, message));
+    }
   } catch (err) {
     // ... error checks
     console.log(err);
@@ -107,6 +115,14 @@ async function addUser(body, res) {
 module.exports.addUser = addUser;
 
 async function updateUser(id, body, res) {
+  if (isNaN(id)) {
+    let message = id + ' is NOT a number';
+    console.log(message);
+    let statusCode = 400;
+    res.status(statusCode);
+    return res.send(envelope.error(statusCode, message));
+  }
+
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -143,7 +159,7 @@ async function updateUser(id, body, res) {
 
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage', @newUserName AS N'userName', @newFirstName AS N'firstName', @newLastName AS N'lastName', @newActive AS N'active', @newComment AS N'comment'`);
 
-    let statusCode =  result.recordset[0].statusCode;
+    let statusCode = result.recordset[0].statusCode;
     let message = result.recordset[0].responseMessage;
 
     if (statusCode === 0) {
@@ -179,12 +195,20 @@ async function updateUser(id, body, res) {
 module.exports.updateUser = updateUser;
 
 async function deleteUser(id, res) {
+  if (isNaN(id)) {
+    let message = id + ' is NOT a number';
+    console.log(message);
+    let statusCode = 400;
+    res.status(statusCode);
+    return res.send(envelope.error(statusCode, message));
+  }
+  
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
       .input('id', sql.Int, id)
       .query('DELETE FROM Users WHERE id = @id');
-      // TODO delete user or deactivate user: here a stored procedure would be more suggested
+    // TODO delete user or deactivate user: here a stored procedure would be more suggested
 
     if (result.rowsAffected[0] === 0) {
       res.send(envelope.error(404, 'User does not exist', 1));

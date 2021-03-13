@@ -26,6 +26,14 @@ async function getTasks(res) {
 module.exports.getTasks = getTasks;
 
 async function getTask(id, res) {
+  if (isNaN(id)) {
+    let message = id + ' is NOT a number';
+    console.log(message);
+    let statusCode = 400;
+    res.status(statusCode);
+    return res.send(envelope.error(statusCode, message));
+  }
+
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -72,6 +80,14 @@ async function addTask(body, res) {
 module.exports.addTask = addTask;
 
 async function updateTask(id, body, res) {
+  if (isNaN(id)) {
+    let message = id + ' is NOT a number';
+    console.log(message);
+    let statusCode = 400;
+    res.status(statusCode);
+    return res.send(envelope.error(statusCode, message));
+  }
+
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -100,6 +116,14 @@ async function updateTask(id, body, res) {
 module.exports.updateTask = updateTask;
 
 async function deleteTask(id, res) {
+  if (isNaN(id)) {
+    let message = id + ' is NOT a number';
+    console.log(message);
+    let statusCode = 400;
+    res.status(statusCode);
+    return res.send(envelope.error(statusCode, message));
+  }
+  
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
