@@ -7,13 +7,11 @@ async function loginUser(body, res) {
     let statusCode = 400;
     let message = 'no userName supplied';
     res.status(statusCode);
-    console.log(message);
     return envelope.error(statusCode, message);
   } else if (!body.password) {
     let statusCode = 400;
     let message = 'no password supplied';
     res.status(statusCode);
-    console.log(message);
     return envelope.error(statusCode, message);
   }
 
