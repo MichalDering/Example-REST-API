@@ -12,6 +12,7 @@ const { PORT,
     SECRET_KEY,
     TOKEN_EXPIRES_IN,
     TOKEN_ISSUER,
+    TASK_STATUSES,
 } = process.env;
 
 const sqlEncrypt = process.env.SQL_ENCRYPT === "true";
@@ -34,7 +35,9 @@ module.exports = {
     secretKey: SECRET_KEY,
     tokenExpiresIn: TOKEN_EXPIRES_IN,
     tokenIssuer: TOKEN_ISSUER,
-    passportAuthenticateOptions: { 
-        session: false, 
-        failWithError: true },
+    passportAuthenticateOptions: {
+        session: false,
+        failWithError: true
+    },
+    taskStatuses: TASK_STATUSES,
 };

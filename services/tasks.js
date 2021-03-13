@@ -1,5 +1,6 @@
 const config = require("../config");
 const envelope = require("../utils/envelope");
+const validation = require("../validation/tasks");
 const sql = require("mssql");
 
 async function getTasks(res) {
@@ -58,6 +59,13 @@ async function getTask(id, res) {
 module.exports.getTask = getTask;
 
 async function addTask(body, res) {
+
+  const validated = validation.validateAddOrUpdateTask(body, res);
+  if (validated.isError === true) {
+    res.status(validated.statusCode);
+    return res.send(envelope.error(validated.statusCode, validated.message));
+  }
+  
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -86,6 +94,12 @@ async function updateTask(id, body, res) {
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));
+  }
+
+  const validated = validation.validateAddOrUpdateTask(body, res);
+  if (validated.isError === true) {
+    res.status(validated.statusCode);
+    return res.send(envelope.error(validated.statusCode, validated.message));
   }
 
   try {

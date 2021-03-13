@@ -3,6 +3,20 @@ const envelope = require("../utils/envelope");
 const sql = require("mssql");
 
 async function loginUser(body, res) {
+  if (!body.userName) {
+    let statusCode = 400;
+    let message = 'no userName supplied';
+    res.status(statusCode);
+    console.log(message);
+    return envelope.error(statusCode, message);
+  } else if (!body.password) {
+    let statusCode = 400;
+    let message = 'no password supplied';
+    res.status(statusCode);
+    console.log(message);
+    return envelope.error(statusCode, message);
+  }
+
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -19,7 +33,6 @@ async function loginUser(body, res) {
                   @responseMessage = @responseMessage OUTPUT
               SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
 
-    // TODO return 400 if Invalid username/password supplied
     let statusCode = 200;
     return envelope.success(statusCode, null, result.recordset[0].responseMessage, result.recordset[0].statusCode);
   } catch (err) {

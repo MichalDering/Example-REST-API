@@ -1,5 +1,6 @@
 const config = require("../config");
 const envelope = require("../utils/envelope");
+const validation = require("../validation/worklogs");
 const sql = require("mssql");
 
 async function getWorkLogs(res) {
@@ -66,24 +67,11 @@ async function getWorkLog(id, res) {
 module.exports.getWorkLog = getWorkLog;
 
 async function addWorkLog(body, res) {
-  if (!body.userId || isNaN(body.userId)) {
-    let message = 'no userId supplied or not as a number';
-    console.log(message);
-    let statusCode = 400;
-    res.status(statusCode);
-    return res.send(envelope.error(statusCode, message));
-  } else if (!body.taskId || isNaN(body.taskId)) {
-    let message = 'no taskId supplied or not as a number';
-    console.log(message);
-    let statusCode = 400;
-    res.status(statusCode);
-    return res.send(envelope.error(statusCode, message));
-  } else if (!body.reportedHours || isNaN(body.reportedHours)) {
-    let message = 'no reportedHours supplied or not as a number';
-    console.log(message);
-    let statusCode = 400;
-    res.status(statusCode);
-    return res.send(envelope.error(statusCode, message));
+
+  const validated = validation.validateAddOrUpdateWorkLog(body, res);
+  if (validated.isError === true) {
+    res.status(validated.statusCode);
+    return res.send(envelope.error(validated.statusCode, validated.message));
   }
 
   try {
@@ -115,6 +103,12 @@ async function updateWorkLog(id, body, res) {
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));
+  }
+
+  const validated = validation.validateAddOrUpdateWorkLog(body, res);
+  if (validated.isError === true) {
+    res.status(validated.statusCode);
+    return res.send(envelope.error(validated.statusCode, validated.message));
   }
 
   try {
