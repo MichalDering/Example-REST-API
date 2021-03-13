@@ -13,6 +13,10 @@ const { PORT,
     TOKEN_EXPIRES_IN,
     TOKEN_ISSUER,
     TASK_STATUSES,
+    USER_NAME_LENGHT_MIN,
+    USER_NAME_LENGHT_MAX,
+    USER_PASSWORD_LENGHT_MIN,
+    USER_PASSWORD_LENGHT_MAX,
 } = process.env;
 
 const sqlEncrypt = process.env.SQL_ENCRYPT === "true";
@@ -40,4 +44,8 @@ module.exports = {
         failWithError: true
     },
     taskStatuses: TASK_STATUSES,
+    userNameLenghtMin: USER_NAME_LENGHT_MIN,
+    userNameLenghtMax: USER_NAME_LENGHT_MAX,
+    userPasswordLenghtMin: USER_PASSWORD_LENGHT_MIN,
+    userPasswordLenghtMax: USER_PASSWORD_LENGHT_MAX,
 };

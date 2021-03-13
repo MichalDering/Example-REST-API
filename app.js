@@ -2,7 +2,6 @@ const config = require("./config");
 const express = require('express');
 const passport = require('passport');
 const routes = require('./routes');
-const services = require('./services');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');

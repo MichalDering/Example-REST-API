@@ -1,5 +1,6 @@
 const config = require("../config");
 const envelope = require("../utils/envelope");
+const validation = require("../validation/users");
 const sql = require("mssql");
 
 async function getUsers(res) {
@@ -66,6 +67,13 @@ async function getUser(id, res) {
 module.exports.getUser = getUser;
 
 async function addUser(body, res) {
+
+  const validated = validation.validateAddUser(body, res);
+  if (validated.isError === true) {
+    res.status(validated.statusCode);
+    return res.send(envelope.error(validated.statusCode, validated.message));
+  }
+
   try {
     let pool = await sql.connect(config.sqlConfig);
     let result = await pool.request()
@@ -121,6 +129,12 @@ async function updateUser(id, body, res) {
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));
+  }
+
+  const validated = validation.validateUpdateUser(body, res);
+  if (validated.isError === true) {
+    res.status(validated.statusCode);
+    return res.send(envelope.error(validated.statusCode, validated.message));
   }
 
   try {
