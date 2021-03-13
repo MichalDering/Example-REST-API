@@ -1,6 +1,7 @@
 'use strict';
 const config = require("../config");
 const typeChecker = require("../utils/typeChecker");
+const regex = require("../utils/regex");
 
 module.exports = {
 
