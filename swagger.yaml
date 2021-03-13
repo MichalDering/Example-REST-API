@@ -640,17 +640,17 @@ components:
       properties:
         status:
           type: string
-        info:
-          type: object
-          properties:
-            message:
-              type: string
-            expiredAt:
-              type: integer
-              format: int32
-            tokenValidFrom:
-              type: integer
-              format: int32
+        message:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        errorCode:
+          type: integer
+          format: int32
+        result:
+          type: array
+          items: {}
           
     NotFoundError:
       type: object
@@ -891,8 +891,19 @@ components:
     TaskDeleted:
       type: object
       properties:
+        status:
+          type: string
         message:
           type: string
+        statusCode:
+          type: integer
+          format: int32
+        errorCode:
+          type: integer
+          format: int32
+        result:
+          type: array
+          items: {}
     
     WorkLog:
       type: object
