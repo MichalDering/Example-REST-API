@@ -1,6 +1,7 @@
 const config = require("../config");
+const services = require('../services');
 
-function createTasksRoutes(app, passport, basePath, services) {
+function createTasksRoutes(app, passport, basePath) {
 
   app.get(basePath + 'tasks', passport.authenticate('bearer', config.passportAuthenticateOptions), (req, res) => {
     services.tasks.getTasks(res);

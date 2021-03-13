@@ -1,6 +1,7 @@
 const config = require("../config");
+const services = require('../services');
 
-function createUsersRoutes(app, passport, basePath, services) {
+function createUsersRoutes(app, passport, basePath) {
 
   app.get(basePath + 'users', passport.authenticate('bearer', config.passportAuthenticateOptions), (req, res) => {
     services.users.getUsers(res);

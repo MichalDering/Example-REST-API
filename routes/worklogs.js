@@ -1,6 +1,7 @@
 const config = require("../config");
+const services = require('../services');
 
-function createWorkLogsRoutes(app, passport, basePath, services) {
+function createWorkLogsRoutes(app, passport, basePath) {
 
   app.get(basePath + 'worklogs', passport.authenticate('bearer', config.passportAuthenticateOptions), (req, res) => {
     services.worklogs.getWorkLogs(res);

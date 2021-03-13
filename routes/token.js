@@ -1,9 +1,10 @@
 const config = require("../config");
 const envelope = require("../utils/envelope");
+const services = require('../services');
 const jwt = require('jsonwebtoken');
 Strategy = require('passport-http-bearer').Strategy;
 
-function createTokenRoutes(app, basePath, services) {
+function createTokenRoutes(app, basePath) {
 
   // login to get the token
   app.post(basePath + 'users/login', async (req, res) => {

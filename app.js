@@ -13,10 +13,10 @@ app.use(express.json());
 const port = config.port || 5000;
 const basePath = '/v1/';
 
-routes.token.createTokenRoutes(app, basePath, services);
-routes.users.createUsersRoutes(app, passport, basePath, services);
-routes.tasks.createTasksRoutes(app, passport, basePath, services);
-routes.worklogs.createWorkLogsRoutes(app, passport, basePath, services);
+routes.token.createTokenRoutes(app, basePath);
+routes.users.createUsersRoutes(app, passport, basePath);
+routes.tasks.createTasksRoutes(app, passport, basePath);
+routes.worklogs.createWorkLogsRoutes(app, passport, basePath);
 
 app.use('/api-docs', swaggerUi.serve,   swaggerUi.setup(swaggerDocument));
 
