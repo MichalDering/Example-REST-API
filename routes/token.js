@@ -30,42 +30,18 @@ function configurePassport(app, passport) {
     jwt.verify(token, config.secretKey, (err, authData) => {
       if (err) {
         if (err.name === 'TokenExpiredError') {
-          // const error = Error('Token expired');
-          // error.status = 401;
-          // error.info = {
-          //   message: error.message,
-          //   expiredAt: err.expiredAt,
-          // }
-          // TODO log.info(err) into a file
           return done({ statusCode: 401, message: 'Token expired' });
         } else if (err.name === 'NotBeforeError') {
-          // const error = Error('Token is not active');
-          // error.status = 401;
-          // error.info = {
-          //   message: error.message,
-          //   tokenValidFrom: err.date,
-          // }
           return done({ statusCode: 401, message: 'Token is not active' });
         } else if (err.name === 'JsonWebTokenError') {
-          // const error = Error('Token error');
-          // error.status = 401;
-          // error.info = {
-          //   message: error.message,
-          // }
           return done({ statusCode: 401, message: 'Token error' });
         }
-        // TODO log.info(err) into a file
         return done({ statusCode: 401, message: 'Other error' });
       }
       if (!authData) {
         return done(null, false);
       }
       if (authData.iss !== config.tokenIssuer) {
-        // const error = Error('Wrong token issuer');
-        // error.status = 401;
-        // error.info = {
-        //   message: error.message,
-        // }
         return done({ statusCode: 401, message: 'Wrong token issuer' });
       }
       return done(null, authData);
