@@ -85,10 +85,22 @@ module.exports = {
 			let message = 'no password supplied';
 			res.status(statusCode);
 			return { isError, statusCode, message }
+		} else if (body.password.length < config.userPasswordLenghtMin || body.password.length > config.userPasswordLenghtMax) {
+			let isError = true;
+			let statusCode = 400;
+			let message = 'password must have from ' + config.userPasswordLenghtMin + ' to ' + config.userPasswordLenghtMax + ' characters';
+			res.status(statusCode);
+			return { isError, statusCode, message }
 		} else if (!body.firstName) {
 			let isError = true;
 			let statusCode = 400;
 			let message = 'no firstName supplied';
+			res.status(statusCode);
+			return { isError, statusCode, message }
+		} else if (body.firstName.length > 80) {
+			let isError = true;
+			let statusCode = 400;
+			let message = 'firstName cannot have more than 80 characters';
 			res.status(statusCode);
 			return { isError, statusCode, message }
 		} else if (!body.lastName) {
@@ -97,10 +109,22 @@ module.exports = {
 			let message = 'no lastName supplied';
 			res.status(statusCode);
 			return { isError, statusCode, message }
+		} else if (body.lastName.length > 80) {
+			let isError = true;
+			let statusCode = 400;
+			let message = 'lastName cannot have more than 80 characters';
+			res.status(statusCode);
+			return { isError, statusCode, message }
 		} else if (!typeChecker.isBoolean(body.active)) {
 			let isError = true;
 			let statusCode = 400;
 			let message = 'no field named [active] of boolean type supplied';
+			res.status(statusCode);
+			return { isError, statusCode, message }
+		} else if (body.comment && body.comment.length > 80) {
+			let isError = true;
+			let statusCode = 400;
+			let message = 'comment field cannot have more than 80 characters';
 			res.status(statusCode);
 			return { isError, statusCode, message }
 		} else {
