@@ -689,11 +689,19 @@ components:
     ConflictError:
       type: object
       properties:
+        status:
+          type: string
+        message:
+          type: string
         statusCode:
           type: integer
           format: int32
-        responseMessage:
-          type: string
+        errorCode:
+          type: integer
+          format: int32
+        result:
+          type: array
+          items: {}
       
     UserLoginData:
       type: object
@@ -815,11 +823,19 @@ components:
     UserDeleted:
       type: object
       properties:
+        status:
+          type: string
+        message:
+          type: string
         statusCode:
           type: integer
           format: int32
-        responseMessage:
-          type: string
+        errorCode:
+          type: integer
+          format: int32
+        result:
+          type: array
+          items: {}
           
     Task:
       type: object
@@ -967,13 +983,17 @@ components:
     WorkLogUpdated:
       type: object
       properties:
-        userId:
+        status:
+          type: string
+        message:
+          type: string
+        statusCode:
           type: integer
           format: int32
-        taskId:
+        errorCode:
           type: integer
           format: int32
-        reportedHours:
-          type: integer
-          format: int32
+        result:
+          type: array
+          items: {}
   
