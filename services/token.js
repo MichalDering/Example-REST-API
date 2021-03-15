@@ -1,18 +1,14 @@
 const config = require("../config");
 const envelope = require("../utils/envelope");
+const validation = require("../validation/token");
 const sql = require("mssql");
 
 async function loginUser(body, res) {
-  if (!body.userName) {
-    let statusCode = 400;
-    let message = 'no userName supplied';
-    res.status(statusCode);
-    return envelope.error(statusCode, message);
-  } else if (!body.password) {
-    let statusCode = 400;
-    let message = 'no password supplied';
-    res.status(statusCode);
-    return envelope.error(statusCode, message);
+
+  const validated = validation.validateUserLoginInput(body, res);
+  if (validated.isError === true) {
+    res.status(validated.statusCode);
+    return envelope.error(validated.statusCode, validated.message);
   }
 
   try {
