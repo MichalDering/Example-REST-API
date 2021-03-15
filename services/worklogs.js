@@ -79,7 +79,12 @@ async function addWorkLog(body, res) {
       .input('userId', sql.Int, body.userId)
       .input('taskId', sql.Int, body.taskId)
       .input('reportedHours', sql.Int, body.reportedHours)
-      .query('INSERT INTO WorkLogs (userId, taskId, reportedHours) VALUES (@userId, @taskId, @reportedHours)');
+      .output('@newRecordId', sql.Int)
+      .query(`DECLARE @newRecordId INT
+        INSERT INTO WorkLogs (userId, taskId, reportedHours) 
+        VALUES (@userId, @taskId, @reportedHours)
+        SET @newRecordId = @@IDENTITY
+        SELECT @newRecordId AS N'newRecordId'`);
 
     let statusCode = 201;
     res.status(statusCode);
