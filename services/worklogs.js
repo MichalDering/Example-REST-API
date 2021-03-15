@@ -33,7 +33,6 @@ module.exports.getWorkLogs = getWorkLogs;
 async function getWorkLog(id, res) {
   if (isNaN(id)) {
     let message = id + ' is NOT a number';
-    console.log(message);
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));
@@ -99,7 +98,6 @@ module.exports.addWorkLog = addWorkLog;
 async function updateWorkLog(id, body, res) {
   if (isNaN(id)) {
     let message = id + ' is NOT a number';
-    console.log(message);
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));
@@ -145,7 +143,6 @@ module.exports.updateWorkLog = updateWorkLog;
 async function deleteWorkLog(id, res) {
   if (isNaN(id)) {
     let message = id + ' is NOT a number';
-    console.log(message);
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));

@@ -33,7 +33,6 @@ module.exports.getUsers = getUsers;
 async function getUser(id, res) {
   if (isNaN(id)) {
     let message = id + ' is NOT a number';
-    console.log(message);
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));
@@ -125,7 +124,6 @@ module.exports.addUser = addUser;
 async function updateUser(id, body, res) {
   if (isNaN(id)) {
     let message = id + ' is NOT a number';
-    console.log(message);
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));
@@ -211,7 +209,6 @@ module.exports.updateUser = updateUser;
 async function deleteUser(id, res) {
   if (isNaN(id)) {
     let message = id + ' is NOT a number';
-    console.log(message);
     let statusCode = 400;
     res.status(statusCode);
     return res.send(envelope.error(statusCode, message));
