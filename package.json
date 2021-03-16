@@ -4,7 +4,8 @@
   "description": "WorkLogs API",
   "main": "app.js",
   "scripts": {
-    "tsc": "tsc --sourcemap"
+    "tsc": "tsc --sourcemap",
+    "nodemon": "nodemon"
   },
   "author": "michal.dering@globallogic.com",
   "license": "ISC",
