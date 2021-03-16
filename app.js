@@ -1,4 +1,5 @@
 const config = require("./config");
+require('source-map-support').install();
 const express = require('express');
 const passport = require('passport');
 const routes = require('./routes');
