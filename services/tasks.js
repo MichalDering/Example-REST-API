@@ -71,10 +71,14 @@ async function addTask(body, res) {
       .input('userId', sql.Int, body.userId)
       .input('summary', sql.NVarChar, body.summary)
       .input('status', sql.NVarChar, body.status)
-      .query('INSERT INTO Tasks (userId, summary, status) VALUES (@userId, @summary, @status)');
+      .query(`DECLARE @newRecordId INT
+        INSERT INTO Tasks (userId, summary, status) 
+        VALUES (@userId, @summary, @status)
+        SET @newRecordId = @@IDENTITY
+        SELECT @newRecordId AS N'newRecordId'`);
 
     res.status(201);
-    res.send(envelope.success(201, result.recordset));
+    res.send(envelope.success(201, result.recordset, 'Task created'));
   } catch (err) {
     // ... error checks
     console.log(err);

@@ -86,6 +86,7 @@ async function addUser(body, res) {
       .output('@responseMessage', sql.NVarChar(250))
       .query(`DECLARE @statusCode INT
               DECLARE @responseMessage NVARCHAR(250)
+              DECLARE @newRecordId INT
 
               EXEC uspAddUser
                   @pUserName = @userName,
@@ -97,18 +98,19 @@ async function addUser(body, res) {
                   @statusCode = @statusCode OUTPUT,
                   @responseMessage = @responseMessage OUTPUT
 
-              SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage'`);
+              SET @newRecordId = @@IDENTITY
+              SELECT @statusCode AS N'statusCode', @responseMessage AS N'responseMessage', @newRecordId AS N'newRecordId'`);
 
     // TODO in case of success return also a whole new object
-    let statusCode = result.recordset[0].statusCode;
+    let errorCode = result.recordset[0].statusCode;
     let message = result.recordset[0].responseMessage;
-    if (statusCode === 0) {
+    if (errorCode === 0) {
       res.status(201);
-      res.send(envelope.success(201, result.recordset, message))
+      res.send(envelope.success(201, result.recordset, message, errorCode))
     } else {
       res.status(409);
       message = 'Could not add a user. Database error. Possible conflict.';
-      res.send(envelope.error(409, message));
+      res.send(envelope.error(409, message, errorCode));
     }
   } catch (err) {
     // ... error checks
