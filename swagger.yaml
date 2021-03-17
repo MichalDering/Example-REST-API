@@ -4,7 +4,7 @@ info:
   title: WorkLogs API
   description: API
   contact:
-    email: michal.dering@globallogic.com
+    email:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html

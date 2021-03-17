@@ -7,8 +7,8 @@
     "tsc": "tsc --sourcemap",
     "nodemon": "nodemon"
   },
-  "author": "michal.dering@globallogic.com",
-  "license": "ISC",
+  "author": "michaldering@onet.pl",
+  "license": "Apache 2.0",
   "dependencies": {
     "class-validator": "^0.13.1",
     "dotenv": "^8.2.0",
